@@ -9,7 +9,7 @@
         $usuario = $_POST["user"];
         $senha   = $_POST["senha"]; 
 
-        $login = "SELECT * FROM usuario WHERE user = '{$usuario}' AND senha = '{$senha}'";
+        $login = "SELECT * FROM usuario WHERE login = '{$usuario}' AND senha = '{$senha}'";
         $acesso = mysqli_query($conecta, $login);
         if(!$acesso){
             die("Falha na Consulta ao Banco");
@@ -18,7 +18,7 @@
         if( empty($informacao)){
             $mensagem = "Login Sem Sucesso, Tente Novamente";
         }else{
-            $_SESSION["user"] = $informacao["user"];
+            $_SESSION["user"] = $informacao["login"];
             header("location:index.php");
         }
     }

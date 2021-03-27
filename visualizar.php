@@ -16,8 +16,8 @@
             die("Falha na Consulta ao Banco");
         } 
     }
-    $processador = "SELECT * FROM processador ";
-    $placa_mae = "SELECT * FROM placamae";
+    $processador = "SELECT * FROM processador";
+    $placa_mae = "SELECT * FROM placa_mae";
     $login = "SELECT * FROM usuario WHERE user == 'biel'";
     $login1 = mysqli_query($conecta, $login);
     $processador2 = mysqli_query($conecta, $processador);

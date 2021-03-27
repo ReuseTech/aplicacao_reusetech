@@ -6,6 +6,15 @@
     if(!isset($_SESSION["user"])){
         header("location:login.php");
     }
+    
+    require_once("conexao.php");
+    $consultar = "show tables";
+
+    $consulta = mysqli_query($conecta, $consultar);
+    if(!$consulta){
+        die("Erro no Banco de Dados");
+    }
+
 ?> 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -25,56 +34,15 @@
         </header>
         <main>
             <div class="coluna">
-                <div class="peca">
-                    <a href="pecas/adicionar_peca.php?table=armazenamento">
-                        <h1>Armazenamento</h1>
-                    </a>
-                </div>
-                <div class="peca">
-                    <a href="pecas/adicionar_peca.php?table=fonte">
-                        <h1>Fonte</h1>
-                    </a>
-                </div>
-                <div class="peca">
-                    <a href="pecas/adicionar_peca.php?table=gabinete">
-                        <h1>Gabinete</h1>
-                    </a>
-                </div>
-                <div class="peca">
-                    <a href="pecas/adicionar_peca.php?table=memoriaram">
-                        <h1>Memoria Ram</h1>
-                    </a>
-                </div>
-                <div class="peca">
-                    <a href="pecas/adicionar_peca.php?table=pc">
-                        <h1>Pc</h1>
-                    </a>
-                </div>
-                <div class="peca">
-                    <a href="pecas/adicionar_peca.php?table=placaderede">
-                        <h1>Placa de Rede</h1>
-                    </a>
-                </div>
-                <div class="peca">
-                    <a href="pecas/adicionar_peca.php?table=placadevideo">
-                        <h1>Placa de Vídeo</h1>
-                    </a>
-                </div>
-                <div class="peca">
-                    <a href="pecas/adicionar_peca.php?table=placamae">
-                        <h1>Placa Mãe</h1>
-                    </a>
-                </div>
-                <div class="peca">
-                    <a href="pecas/adicionar_peca.php?table=processador">
-                        <h1>Processador</h1>
-                    </a>
-                </div>
-                <div class="peca">
-                    <a href="pecas/adicionar_peca.php?table=usuario">
-                        <h1>Usuario</h1>
-                    </a>
-                </div>
+                <?php
+                    foreach($consulta as $table){
+                        echo"<div class='peca'>
+                                <a href='pecas/adicionar_peca.php?table=$table[Tables_in_dbreusetech]'>
+                                <h1>$table[Tables_in_dbreusetech]</h1>
+                            </a>
+                        </div>";
+                    }
+                ?>
             </div>
             <div class="sair">
                 <a href="index.php"><input type="button" value="Voltar"></a>
