@@ -26,6 +26,12 @@
         die("Falha na Consulta ao Banco2");
     } 
     
+    $consultar = "show tables";
+
+    $consulta = mysqli_query($conecta, $consultar);
+    if(!$consulta){
+        die("Erro no Banco de Dados");
+    }
 
 ?>
 <!DOCTYPE html>
@@ -50,69 +56,32 @@
             <h1>Visualizar Estoque </h1>
         </div>
 
-        <?php
-            while($proc = mysqli_fetch_assoc($processador2)) {
-            $num = 0;
-        ?>
+                <?php
 
-        <div class="peca">
-            <h3>PROCESSADOR</h3>
-            <ul>
-                <li>Marca: <?php echo $proc["marca"] ?></li>
-                <li>Modelo: <?php echo $proc["modelo"] ?></li>
-                <li>Quantidade de Nucleos: <?php echo $proc["quantNucleos"] ?></li>
-                <li>Quantidade de Threads: <?php echo $proc["quantThreads"]?></li>
-                <li>Soquete: <?php echo $proc["soquete"]?></li>
-                <li>Possui Gráficos Integrado: <?php echo $proc["possuiGraficosIntegrados"]?></li>
-                <li>TDP: <?php echo $proc["TDP"]?></li>
-                <li>Tipo de Barramento Suportado: <?php echo $proc["tipoBarraRamSuportado"]?></li>
-                <li>Estado: <?php echo $proc["funciona"]?> </li>
-                <form action="visualizar.php" method="POST">
-                    <input type="hidden" name="id" value="<?php echo $proc["id"]?>"><br>
-                    <input type="hidden" name="peca" value="processador"><br>
-                    <div class="lixao">
-                        <input type="submit" value="🗑" class="lixo">
-                    </div>
-                </form>
-            </ul>
-            
-            
-        </div>
-        <?php
-            }
-        ?>
+                $exception = array("usuario");
 
-        <?php
-            while($placa = mysqli_fetch_assoc($placa_mae2)) {
-        ?>
-        <div class="peca">
-            <h3>PLACA MÃE</h3>
-            <ul>
-                <li>Marca: <?php echo $placa["marca"] ?></li>
-                <li>Modelo: <?php echo $placa["modelo"] ?></li>
-                <li>Soquete: <?php echo $placa["soquete"] ?></li>
-                <li>Chipset: <?php echo $placa["chipset"]?></li>
-                <li>Tipo Barramento RAM: <?php echo $placa["tipoBarraRam"]?></li>
-                <li>Quantidade Barramento RAM: <?php echo $placa["quantBarraRam"]?></li>
-                <li>Tipo PCI: <?php echo $placa["tipoPCI"]?></li>
-                <li>Quantidade PCI: <?php echo $placa["quantidadePCI"]?></li>
-                <li>Tipo Barramento de Armazenamento: <?php echo $placa["tipoBarraArmaz"]?> </li>
-                <li>Quantidade de Barramento de Armazenamento: <?php echo $placa["quantBarraArmaz"]?> </li>
-                <li>funciona: <?php echo $placa["funciona"]?> </li>
-                <form action="visualizar.php" method="POST">
-                    <input type="hidden" name="id" value="<?php echo $placa["id"]?>"><br>
-                    <input type="hidden" name="peca" value="placamae"><br>
-                    <div class="lixao">
-                        <input type="submit" value="🗑" class="lixo">
-                    </div>
-                </form>
-            </ul>
-            
-        </div>
-        <?php
-            }
-        ?>
+                foreach($consulta as $table){
+                    if (!in_array($table[Tables_in_dbreusetech], $exception)){
+                        $consultar_pecas = "select * from $table[Tables_in_dbreusetech]";
+                        $consulta_pecas = mysqli_query($conecta, $consultar_pecas);
+    
+                        while($row = mysqli_fetch_assoc($consulta_pecas)){
+                            echo"<div class='peca'>
+                            <h3>$table[Tables_in_dbreusetech]</h3>
+                            <ul>";
+    
+                            foreach(array_keys($row) as $contador){
+                                echo "<li>";
+                                print($contador . ": " . $row[$contador]);
+                                echo "</li>";
+                            }
+    
+                            echo"</ul></div>";
+                        }
+                    }
+                    }
 
+                ?>
         <div class="sair">
             <a href="index.php"><input type="button" value="Voltar"></a>
         </div>
