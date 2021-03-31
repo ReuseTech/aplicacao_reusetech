@@ -13,7 +13,25 @@
     $consulta = mysqli_query($conecta, $consultar);
     if(!$consulta){
         die("Erro no Banco de Dados");
+    };
+
+    $pecas = array();
+    while($row = mysqli_fetch_assoc($consulta)[Tables_in_dbreusetech]){
+        array_push($pecas, "$row");
     }
+
+    $teste = json_encode($pecas);
+    
+    $file = "json/pecas.json ";
+
+    if(file_put_contents($file, $teste)){
+        echo "Deu certo";
+    }
+    else{
+        echo "Deu errado";
+    }
+    
+
 
 ?> 
 <!DOCTYPE html>
@@ -34,15 +52,7 @@
         </header>
         <main>
             <div class="coluna">
-                <?php
-                    foreach($consulta as $table){
-                        echo"<div class='peca'>
-                                <a href='pecas/adicionar_peca.php?table=$table[Tables_in_dbreusetech]'>
-                                <h1>$table[Tables_in_dbreusetech]</h1>
-                            </a>
-                        </div>";
-                    }
-                ?>
+
             </div>
             <div class="sair">
                 <a href="index.php"><input type="button" value="Voltar"></a>
