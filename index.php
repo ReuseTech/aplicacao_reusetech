@@ -30,7 +30,7 @@
             </a>
         </div>
         <div id="funcoes">
-            <a href="adicionar.php">
+            <a href="adicionar.html">
                 <h1>Adicionar Peça do Estoque</h1>
                 <p>Click aqui para adicionar peças em nosso estoque</p>
             </a>

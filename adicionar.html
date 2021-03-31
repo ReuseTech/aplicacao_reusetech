@@ -1,39 +1,3 @@
-<!-- Passar para o PHP-->
-<?php
-    //Iniciando Variavel de sessão
-    session_start();
-    //Mandar de volta para a tela de login caso não tenha passado por ela
-    if(!isset($_SESSION["user"])){
-        header("location:login.php");
-    }
-    
-    require_once("conexao.php");
-    $consultar = "show tables";
-
-    $consulta = mysqli_query($conecta, $consultar);
-    if(!$consulta){
-        die("Erro no Banco de Dados");
-    };
-
-    $pecas = array();
-    while($row = mysqli_fetch_assoc($consulta)[Tables_in_dbreusetech]){
-        array_push($pecas, "$row");
-    }
-
-    $teste = json_encode($pecas);
-    
-    $file = "json/pecas.json ";
-
-    if(file_put_contents($file, $teste)){
-        echo "Deu certo";
-    }
-    else{
-        echo "Deu errado";
-    }
-    
-
-
-?> 
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -51,12 +15,16 @@
             <h1>ReuseTech</h1>
         </header>
         <main>
+            <div class="recarrgar sair">
+                <a href="api/consulta_pecas.php"><input type="button" value="Recarregar tabelas disponíveis"></a>
+            </div>
             <div class="coluna">
-
+                <!-- conteúdo criado via javascript -->
             </div>
             <div class="sair">
                 <a href="index.php"><input type="button" value="Voltar"></a>
             </div>
         </main>
+        <script src="javascript/consulta_pecas.js"></script>
     </body>
 </html>
