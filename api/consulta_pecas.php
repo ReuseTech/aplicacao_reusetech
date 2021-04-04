@@ -52,7 +52,7 @@
         $tabela = array();
         $tabela_tipos = array();
         while($linha = mysqli_fetch_assoc($query)){
-            if($linha[Field] != 'id' and $linha[Field] != 'pc_id'){
+            if($linha[Field] != 'id' and $linha[Field] != 'id__pc'){
                 array_push($tabela, "$linha[Field]");
                 array_push($tabela_tipos, "$linha[Type]");
             } 
