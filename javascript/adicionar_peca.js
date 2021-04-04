@@ -33,6 +33,14 @@ function createInputHidden(url_teste){
     input_hidden.setAttribute('type', 'hidden');
     return input_hidden;
 }
+function createButton(url_teste){
+    let button = document.createElement('button');
+    button.setAttribute('type', 'button');
+    let barramento = "adicionarTabela('barramento_"+url_teste+"')";
+    button.setAttribute('onclick', barramento);
+    button.innerText = 'Adicionar barramento';
+    return button;
+}
 
 //pegando o tipo do input
 function inputType(file_tipo){
@@ -49,29 +57,35 @@ function inputType(file_tipo){
     return inputType;
 }
 
-//JSON request
-const json_request = new XMLHttpRequest();
-json_request.open('GET', 'json/tabelas/' + url_teste +'.json' ,true);
-json_request.responseType = 'JSON';
+function adicionarTabela(url_teste){
+    //JSON request
+    const json_request = new XMLHttpRequest();
+    json_request.open('GET', 'json/tabelas/' + url_teste +'.json' ,true);
+    json_request.responseType = 'JSON';
 
-//assim que o json carregar
-json_request.onload = () =>{
-    let data = JSON.parse(json_request.response);
-    
-    //imprimindo o resultado
-    let form = document.querySelector('form');
+    //assim que o json carregar
+    json_request.onload = () =>{
+        let data = JSON.parse(json_request.response);
+        
+        //imprimindo o resultado
+        let form = document.querySelector('form');
 
-    form.appendChild(createH1(url_teste));
-    form.appendChild(createInputHidden(url_teste));
+        form.appendChild(createH1(url_teste));
+        form.appendChild(createInputHidden(url_teste));
 
-    for(i = 0; i < data[0].length; i++){
-        let file = data[0][i];
-        let file_tipo = data[1][i];
-          
-        form.appendChild(createLabel(file, file_tipo));
-        form.appendChild(createInput(file, inputType(file_tipo)));
-        form.appendChild(document.createElement('br'));
+        for(i = 0; i < data[0].length; i++){
+            let file = data[0][i];
+            let file_tipo = data[1][i];
+            
+            form.appendChild(createLabel(file, file_tipo));
+            form.appendChild(createInput(file, inputType(file_tipo)));
+            form.appendChild(document.createElement('br'));
+        }
+        if(!document.querySelector('button')){
+            form.appendChild(createButton(url_teste));
+            form.appendChild(createInputSubmit());
+        }
     }
-    form.appendChild(createInputSubmit());
-}
-json_request.send();
+    json_request.send();
+}   
+adicionarTabela(url_teste);
