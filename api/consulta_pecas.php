@@ -10,6 +10,8 @@
      
     require_once("../conexao.php");
 
+//ATUALIZANDO AS PEÇAS DISPONÍVEIS PARA SEREM ADICIONADAS
+
     //comando mysql para pegar todas as tabelas existentes
     $consultar = "show tables";
     
@@ -28,10 +30,45 @@
     //passando o array para um json
     $teste = json_encode($pecas);
     
+    //exclui o arquivo antigo
+    $file = "../json/pecas.json";
+    unlink($file);
+    foreach (glob("../json/tabelas/*.json") as $filename) {
+        unlink($filename);
+     }
+
     //criando um arquivo .json
-    $file = "../json/pecas.json ";
     if(!file_put_contents($file, $teste)){
         die ("Deu errado");
     }
+
+//ATUALIZANDO AS INFORMAÇÕES PARA A CRIAÇÃO DOS FORMULÁRIOS
+
+    //repetindo a criação de um .json para cada tabela
+    foreach($pecas as $row){
+        $query = mysqli_query($conecta, "SHOW COLUMNS FROM $row");
+
+        //criando o array com rows da tabela
+        $tabela = array();
+        $tabela_tipos = array();
+        while($linha = mysqli_fetch_assoc($query)){
+            if($linha[Field] != 'id' and $linha[Field] != 'pc_id'){
+                array_push($tabela, "$linha[Field]");
+                array_push($tabela_tipos, "$linha[Type]");
+            } 
+        }
+
+        print_r($tabela_tipos);
+        //passando o array para um .json
+        $teste_tabela = json_encode(array($tabela, $tabela_tipos));
+
+        //criadno um arquivo .json
+        $file = "../json/tabelas/$row.json";
+        if (!file_put_contents($file, $teste_tabela)){
+            die("Deu errado");
+        }
+    }
+
+    //volta à página anterior
     header('Location: ../adicionar.html');   
 ?> 

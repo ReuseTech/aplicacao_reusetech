@@ -1,0 +1,1 @@
+[["marca","modelo","descricao","data_recebimento","origem","tipo_sensor","conexao","funciona"],["varchar(100)","varchar(150)","varchar(300)","date","varchar(100)","varchar(50)","varchar(50)","tinyint(1)"]]

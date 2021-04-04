@@ -1,0 +1,1 @@
+[["data_montagem","status","destinatario","id__processador","id__placa_mae","id__placa_de_video","id__placa_de_rede","id__fonte","id__gabinete","id__memoria_ram","id__armazenamento"],["date","varchar(200)","varchar(150)","int","int","int","int","int","int","int","int"]]

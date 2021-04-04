@@ -2,12 +2,14 @@
 
 //JSON request
 const json_request = new XMLHttpRequest();
-json_request.open('GET', 'json/pecas.json%20', true);
+json_request.open('GET', 'json/pecas.json', true);
 json_request.responseType = 'json';
 
 //assim que o json carregar
 json_request.onload = () =>{
     data = json_request.response;
+
+    console.log(data);
 
     //imprimindo o resultado
     for (i = 0; i < data.length; i++){
@@ -20,7 +22,7 @@ json_request.onload = () =>{
         div.setAttribute("class", "peca");
 
         let a = document.createElement("a");
-        a.setAttribute("href", "pecas/adicionar_peca.php?table=" + file);
+        a.setAttribute("href", "adicionar_peca.html?table=" + file);
         a.setAttribute("class", file);
 
         let h1 = document.createElement("h1"); 
