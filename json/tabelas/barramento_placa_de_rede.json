@@ -1,1 +1,1 @@
-[["barramento","tipo"],["varchar(150)","enum('E','W')"]]
+[["barramento","tipo"],["varchar(150)","enum('ethernet','wireless')"]]

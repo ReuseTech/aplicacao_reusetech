@@ -72,5 +72,5 @@
     }
 
     //volta à página anterior
-    //header('Location: ../adicionar.html');   
+    header('Location: ../adicionar.html');   
 ?> 
