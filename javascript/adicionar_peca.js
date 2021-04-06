@@ -49,8 +49,8 @@ function createButton(url_teste){
 }
 function createSelect(barramento){
     let select = document.createElement('select');
-    select.setAttribute('name', 'barramento')
-    select.setAttribute('id', barramento);
+    select.setAttribute('name', 'barramento[]')
+    select.setAttribute('id', barramento); 
     select.appendChild(createOption(""));
     return select;
 }
@@ -63,7 +63,7 @@ function createOption(barramento, barramento_id){
 
 //criando o select dos barramentos
 function createSelectBarramento(documentoPai, Id, data){
-    documentoPai.appendChild(createSelect(Id, Id));
+    documentoPai.appendChild(createSelect(Id));
     for(o = 0; o < data[0].length; o++){
         document.getElementById(Id).appendChild(createOption(data[0][o][1], data[0][o][0]));
     }

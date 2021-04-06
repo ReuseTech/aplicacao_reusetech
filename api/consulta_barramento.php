@@ -16,7 +16,8 @@
     $tabela = $_GET[table];
     $barramento_array = array();
     foreach($consulta as $table){
-        if(strpos("$table[Tables_in_dbreusetech]", "barramento") !== False and strpos("$table[Tables_in_dbreusetech]", $tabela)){
+        $nome_tabela = $table[Tables_in_dbreusetech];
+        if(strpos($nome_tabela, "barramento") !== False and strpos($nome_tabela, $tabela) !== False and strpos($nome_tabela, "fk_") === False){
             $consultar_pecas = "select * from $table[Tables_in_dbreusetech]";
             $consulta_pecas = mysqli_query($conecta, $consultar_pecas);
     

@@ -24,9 +24,8 @@
     //passa o resultado da consulta para um array
     $pecas = array();
     while($row = mysqli_fetch_assoc($consulta)[Tables_in_dbreusetech]){
-        if(strpos("$row", "fk_") === False){
             array_push($pecas, "$row");
-        }
+        
     }
     //passando o array para um json
     $teste = json_encode($pecas);
@@ -47,7 +46,7 @@
 
     //repetindo a criação de um .json para cada tabela
     foreach($pecas as $row){
-        if(strpos("$row", "fk_") === False){
+        
             $query = mysqli_query($conecta, "SHOW COLUMNS FROM $row");
 
             //criando o array com rows da tabela
@@ -68,7 +67,7 @@
             if (!file_put_contents($file, $teste_tabela)){
                 die("Deu errado");
             }
-        }
+        
     }
 
     //volta à página anterior
