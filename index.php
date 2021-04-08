@@ -24,7 +24,7 @@
     </header>
     <main>
         <div id="funcoes">
-            <a href="visualizar.php">
+            <a href="visualizar.html">
                 <h1>Visualizar Estoque</h1>
                 <p>Click aqui para visualizar o nosso estoque de peças</p>
             </a>

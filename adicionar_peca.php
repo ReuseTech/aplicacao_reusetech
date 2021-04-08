@@ -38,17 +38,18 @@
             die("Erro no Banco de Dados");
         }
         
-        
         for($i = 0; $i < sizeof(array_count_values($barramento)); $i++){
             $atributes = "";
-            $atributes .= $barramento[$i] . ", ";
-            $atributes .= array_count_values($barramento)[$i+1];
-            echo "<br>";
+            $atributes .= array_keys(array_count_values($barramento))[$i] . ", ";
+            $atributes .= array_count_values($barramento)[array_keys(array_count_values($barramento))[$i]];
+            
             $inserir_fk = createQueryTabela($table_fk, $json_tabela_fk)."("."LAST_INSERT_ID(),".$atributes.")";
+            print($inserir_fk);
+            echo "<br>";
             $insert = mysqli_query($conecta, $inserir_fk);
             if(!$insert){
                 die("Erro no Banco de Dados");
-            } 
+            }
         }
         echo "<br>";
         header("location: certo.html");
