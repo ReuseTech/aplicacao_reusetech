@@ -1,1 +1,1 @@
-[["marca","modelo","descricao","data_recebimento","origem"],["varchar(100)","varchar(150)","varchar(300)","date","varchar(100)"]]
+[["marca","modelo","descricao","data_recebimento","remetente"],["varchar(100)","varchar(150)","varchar(300)","date","varchar(100)"]]

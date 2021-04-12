@@ -1,1 +1,1 @@
-[["barramento","tipo","soquete","chipset"],["varchar(150)","enum('armazenamento','memoria','pci')","varchar(30)","varchar(30)"]]
+[["barramento","tipo"],["varchar(150)","enum('armazenamento','memoria','pci')"]]

@@ -3,7 +3,7 @@ let url_teste = window.location.href.substring(window.location.href.indexOf("?")
 url_teste = url_teste.substring(url_teste.indexOf("=") + 1);
 
 //criando as tags
-function createH(hN, url_teste){
+function createH(hN){
     let h = document.createElement(hN);
     h.innerText = url_teste.replace("_", " ").replace("_", " ");
     return h;
@@ -32,14 +32,14 @@ function createInputSubmit(){
     input_submit.setAttribute('name', 'Enviar');
     return input_submit;
 }
-function createInputHidden(url_teste){
+function createInputHidden(){
     let input_hidden = document.createElement('input');
     input_hidden.setAttribute('value', url_teste);
     input_hidden.setAttribute('name', 'table');
     input_hidden.setAttribute('type', 'hidden');
     return input_hidden;
 }
-function createButton(url_teste){
+function createButton(){
     let button = document.createElement('button');
     button.setAttribute('type', 'button');
     let barramento = "adicionarBarramento('barramento_"+url_teste+"')";
@@ -84,75 +84,89 @@ function inputType(file_tipo){
     return inputType;
 }
 
-function adicionarTabela(url_teste){
-    //JSON request
-    const json_request = new XMLHttpRequest();
-    json_request.open('GET', 'json/tabelas/' + url_teste +'.json' ,true);
-    json_request.responseType = 'JSON';
-
-    //assim que o json carregar
-    json_request.onload = () =>{
-        let data = JSON.parse(json_request.response);
+//carregando a tabela e os barramentos
+let tabela = null
+function loadTable(path, callBack){
+        //JSON request
         
-        //imprimindo o resultado
-        let form = document.querySelector('form');
+        const json_request = new XMLHttpRequest();
+        json_request.open('GET', path ,true);
+        json_request.responseType = 'json';
+    
+        //assim que o json carregar
+        json_request.onload = () =>{
+            tabela = json_request.response;
+            callBack('api/consulta_barramento.php?table=barramento_'+url_teste);
+        }
+        json_request.send();
+}
+let bus = null
+function loadBus(path){
+        //JSON request
+        
+        const json_request = new XMLHttpRequest();
+        json_request.open('GET', path ,true);
+        json_request.responseType = 'json';
+    
+        //assim que o json carregar
+        json_request.onload = () =>{
+            bus = json_request.response;
+            adicionarTabela();
+        }
+        json_request.send();
+}
 
-        form.appendChild(createH('h1', url_teste));
-        form.appendChild(createInputHidden(url_teste));
+//imprimindo a tabela
+function adicionarTabela(){      
+    let data = tabela;
+    let form = document.querySelector('form');
 
-        for(i = 0; i < data[0].length; i++){
-            let file = data[0][i];
-            let file_tipo = data[1][i];
-            
-            form.appendChild(createLabel(file, file_tipo));
-            form.appendChild(createInput(file, inputType(file_tipo)));
-            form.appendChild(document.createElement('br'));
-        }
-        if(!document.querySelector('button')){
-            form.appendChild(createButton(url_teste));  
-        }
-        if(document.querySelector("input[name='Enviar']")){
-            document.querySelector("input[name='Enviar']").remove();
-        }
-        form.appendChild(createInputSubmit());
+    form.appendChild(createH('h1', url_teste));
+    form.appendChild(createInputHidden(url_teste));
+
+    for(i = 0; i < data[0].length; i++){
+        let file = data[0][i];
+        let file_tipo = data[1][i];
+        
+        form.appendChild(createLabel(file, file_tipo));
+        form.appendChild(createInput(file, inputType(file_tipo)));
+        form.appendChild(document.createElement('br'));
     }
-    json_request.send();
+
+    if(bus[1] != null){
+        form.appendChild(createButton(url_teste));  
+    }
+    if(document.querySelector("input[name='Enviar']")){
+        document.querySelector("input[name='Enviar']").remove();
+    }
+    form.appendChild(createInputSubmit());
+
 }
 function adicionarBarramento(url_barramento){
-    //JSON request
-    const json_request = new XMLHttpRequest();
-    json_request.open('GET', 'api/consulta_barramento.php?table='+url_teste, true);
-    json_request.responseType = 'JSON';
-
+    let data = bus;
     
-    //assim que o json carregar
-    json_request.onload = () =>{
-        let data = JSON.parse(json_request.response);
-        
-        //imprimindo o resultado
-        let form = document.querySelector('form');
+    //imprimindo o resultado
+    let form = document.querySelector('form');
 
-        form.appendChild(createH('h4', url_barramento));
+    form.appendChild(createH('h4', url_barramento));
 
-        //criando os select
-        if (document.querySelector('select')){ 
-            let numId = document.querySelectorAll('select');
-            let numIdId = numId[numId.length -1].id;
-            let id = parseInt(numIdId) + 1;
-            createSelectBarramento(form, id, data);
-        }
-        else{
-            createSelectBarramento(form, 1, data);
-        }
-        
-        if(!document.querySelector('button')){
-            form.appendChild(createButton(url_barramento));  
-        }
-        if(document.querySelector("input[name='Enviar']")){
-            document.querySelector("input[name='Enviar']").remove();
-        }
-        form.appendChild(createInputSubmit());
+    //criando os select
+    if (document.querySelector('select')){ 
+        let numId = document.querySelectorAll('select');
+        let numIdId = numId[numId.length -1].id;
+        let id = parseInt(numIdId) + 1;
+        createSelectBarramento(form, id, data);
     }
-    json_request.send();
+    else{
+        createSelectBarramento(form, 1, data);
+    }
+    
+    if(!document.querySelector('button')){
+        form.appendChild(createButton(url_barramento));  
+    }
+    if(document.querySelector("input[name='Enviar']")){
+        document.querySelector("input[name='Enviar']").remove();
+    }
+    form.appendChild(createInputSubmit());
 }      
-adicionarTabela(url_teste);
+loadTable('json/tabelas/' + url_teste +'.json', loadBus);

@@ -1,1 +1,1 @@
-[["marca","modelo","descricao","data_recebimento","origem","padrao","conexao","funciona"],["varchar(100)","varchar(150)","varchar(300)","date","varchar(100)","varchar(50)","varchar(50)","tinyint(1)"]]
+[["marca","modelo","descricao","data_recebimento","remetente","padrao","conexao","funciona"],["varchar(100)","varchar(150)","varchar(300)","date","varchar(100)","varchar(50)","varchar(50)","tinyint(1)"]]
