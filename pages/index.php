@@ -3,7 +3,7 @@
     session_start();
     //Mandar de volta para a tela de login caso não tenha passado por ela
     if(!isset($_SESSION["user"])){
-        header("location:login.php");
+        header("location:login.html");
     }
 ?> 
 <!DOCTYPE html>
@@ -13,9 +13,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplicativo ReuseTech</title>
     <!--LINKS CSS-->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/responsive.css">
 </head>
 <body>
     <header>
@@ -36,7 +36,7 @@
             </a>
         </div>
         <div class="sair">
-            <a href="sair.php"><input type="button" value="Sair"></a>
+            <a href="../php/sair.php"><input type="button" value="Sair"></a>
         </div>
     </main>
 </body>

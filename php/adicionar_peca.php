@@ -35,7 +35,8 @@
         $inserir = createQueryTabela($table, $json_tabela)."(".$atributes.")";
         $insert = mysqli_query($conecta, $inserir);
         if(!$insert){
-            die("Erro no Banco de Dados");
+            echo "$inserir";
+            die("Erro no Banco de Dados3");
         }
         
         for($i = 0; $i < sizeof(array_count_values($barramento)); $i++){
@@ -48,7 +49,7 @@
             echo "<br>";
             $insert = mysqli_query($conecta, $inserir_fk);
             if(!$insert){
-                die("Erro no Banco de Dados");
+                die("Erro no Banco de Dados2");
             }
         }
         echo "<br>";

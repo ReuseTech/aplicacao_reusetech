@@ -45,6 +45,7 @@
 //ATUALIZANDO AS INFORMAÇÕES PARA A CRIAÇÃO DOS FORMULÁRIOS
 
     //repetindo a criação de um .json para cada tabela
+    $tabela_pc = array();
     foreach($pecas as $row){
         
             $query = mysqli_query($conecta, "SHOW COLUMNS FROM $row");
@@ -56,18 +57,29 @@
                 if($linha[Field] != 'id' and $linha[Field] != 'id__pc'){
                     array_push($tabela, "$linha[Field]");
                     array_push($tabela_tipos, "$linha[Type]");
-                } 
+                }
+                else if($linha[Field] == 'id__pc'){
+                    array_push($tabela_pc, "$row");
+                    //print($row);
+                }
             }
-    
             //passando o array para um .json
             $teste_tabela = json_encode(array($tabela, $tabela_tipos));
     
-            //criadno um arquivo .json
+            //criando um arquivo .json
             $file = "../json/tabelas/$row.json";
             if (!file_put_contents($file, $teste_tabela)){
                 die("Deu errado");
             }
         
+    }
+    //passando o array para um .json
+    $teste_tabela = json_encode($tabela_pc);
+
+    //criando um arquivo .json
+    $file = "../json/tabelas/pecas_pc.json";
+    if (!file_put_contents($file, $teste_tabela)){
+        die("Deu errado");
     }
 
     //volta à página anterior

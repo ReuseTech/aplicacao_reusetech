@@ -1,6 +1,7 @@
-//pegando o nome da tabela
-let url_teste = window.location.href.substring(window.location.href.indexOf("?") + 1);
-url_teste = url_teste.substring(url_teste.indexOf("=") + 1);
+let url_teste = 'pc';
+let tabela = null;
+let data = null;
+let bus = new Array;
 
 //criando as tags
 function createH(hN){
@@ -56,22 +57,19 @@ function createSelect(barramento){
     select.setAttribute('onchange', "createBusLabels("+barramento+")");
     return select;
 }
-
 function createOption(barramento, barramento_id){
     let option = document.createElement('option');
     option.setAttribute('value', barramento_id);
     option.innerText = barramento;
     return option;
 }
-
 //criando o select dos barramentos
 function createSelectBarramento(documentoPai, Id, data){
     documentoPai.appendChild(createSelect(Id));
-    for(o = 0; o < data[0].length; o++){
-        document.getElementById(Id).appendChild(createOption(data[0][o][1], data[0][o][0]));
+    for(o = 0; o < data[1].length; o++){
+        document.getElementById(Id).appendChild(createOption(data[1][o][2], data[1][o][0]));
     }
 }
-
 //pegando o tipo do input
 function inputType(file_tipo){
     let inputType = null;
@@ -88,8 +86,7 @@ function inputType(file_tipo){
 }
 
 //carregando a tabela e os barramentos
-let tabela = null
-function loadTable(path, callBack){
+function loadTable(path){
         //JSON request
         
         const json_request = new XMLHttpRequest();
@@ -99,12 +96,12 @@ function loadTable(path, callBack){
         //assim que o json carregar
         json_request.onload = () =>{
             tabela = json_request.response;
-            callBack('api/consulta_barramento.php?table=barramento_'+url_teste);
+            adicionarTabela(tabela);
+            loadTablesPc('json/tabelas/pecas_pc.json');
         }
         json_request.send();
 }
-let bus = null
-function loadBus(path){
+function loadTablesPc(path){
         //JSON request
         
         const json_request = new XMLHttpRequest();
@@ -113,10 +110,40 @@ function loadBus(path){
     
         //assim que o json carregar
         json_request.onload = () =>{
-            bus = json_request.response;
-            adicionarTabela(tabela);
+            tabelas = json_request.response;
+            for(let i = 0; i < tabelas.length; i++){
+                loadTables('api/consulta_pecas_pc.php?table=' + tabelas[i]);
+            }
         }
         json_request.send();
+}
+
+function loadTables(path){
+    //JSON request
+    
+    const json_request = new XMLHttpRequest();
+    json_request.open('GET', path ,true);
+    json_request.responseType = 'json';
+
+    //assim que o json carregar
+    json_request.onload = () =>{
+        data = json_request.response;
+        bus.push(data);
+        //console.log(bus);
+
+        let form = document.querySelector('form');
+
+        if (document.querySelector('select')){ 
+            let numId = document.querySelectorAll('select');
+            let numIdId = numId[numId.length -1].id;
+            let id = parseInt(numIdId) + 1;
+            createSelectBarramento(form, id, data);
+        }
+        else{
+            createSelectBarramento(form, 1, data);
+        }
+    }
+    json_request.send();
 }
 
 //imprimindo a tabela
@@ -136,14 +163,19 @@ function adicionarTabela(tabela){
         form.appendChild(document.createElement('br'));
     }
 
+    /*
     if(bus[1] != null){
         form.appendChild(createButton(url_teste));  
     }
+    */
+
     if(document.querySelector("input[name='Enviar']")){
         document.querySelector("input[name='Enviar']").remove();
     }
     form.appendChild(createInputSubmit());
 }
+
+/*
 function adicionarBarramento(url_barramento){
     let data = bus;
     
@@ -157,10 +189,10 @@ function adicionarBarramento(url_barramento){
         let numId = document.querySelectorAll('select');
         let numIdId = numId[numId.length -1].id;
         let id = parseInt(numIdId) + 1;
-        createSelectBarramento(form, id, data);
+        createSelectBarramento(form, id, bus);
     }
     else{
-        createSelectBarramento(form, 1, data);
+        createSelectBarramento(form, 1, bus);
     }
 
     if(document.querySelector("input[name='Enviar']")){
@@ -168,38 +200,37 @@ function adicionarBarramento(url_barramento){
     }
     form.appendChild(createInputSubmit());
 }
-function createBusLabels(id_barramento){
+*/
+
+function createBusLabels(id_barramento){    
     let form = document.querySelector('form');
     let select = document.getElementById(id_barramento);
-
-    let file = bus[0][parseInt(select.value)-1][1];
-    let file_tipo = bus[1][1];
-    let file2 = bus[0][parseInt(select.value)-1][2];
-    let file2_tipo = bus[1][2];
 
     while(document.querySelector("#label" + id_barramento.toString())){
         document.querySelector("#label" + id_barramento.toString()).remove();
     }
 
+    bus_teste = bus[id_barramento -1];
+    console.log(bus_teste);
+    console.log(select.value);
 
-    //criando os labels de acordo com option escolhido
-    let tipo = select.form.insertBefore(document.createElement('label'), select.nextSibling);
-    tipo.innerText = file2;
-    tipo.setAttribute("id", 'label'+id_barramento);
-    tipo.setAttribute("class", "bus_label");
-    let tipo2 = select.form.insertBefore(document.createElement('label'), select.nextSibling);
-    tipo2.innerText = file2_tipo;
-    tipo2.setAttribute("id", 'label'+id_barramento);
-    tipo2.setAttribute("class", "bus_label_tipo");  
-
-    let barramento = select.form.insertBefore(document.createElement('label'), select.nextSibling);
-    barramento.innerText = file;
-    barramento.setAttribute('id', 'label'+id_barramento);
-    barramento.setAttribute("class", "bus_label");
-    let barramento2 = select.form.insertBefore(document.createElement('label'), select.nextSibling);
-    barramento2.innerText = file_tipo;
-    barramento2.setAttribute('id', 'label'+id_barramento);
-    barramento2.setAttribute("class", "bus_label_tipo");
+    for(let i = bus_teste[1][select.value - bus_teste[1][0][0]].length; i > 0; i--){
+        let file = bus_teste[1][select.value - bus_teste[1][0][0]][i];
+        let file_tipo = bus_teste[0][0][i];
+    
+        //criando os labels de acordo com option escolhido
+        if(file_tipo != undefined){
+            let tipo = select.form.insertBefore(document.createElement('label'), select.nextSibling);
+            tipo.innerText = file + " ";
+            tipo.setAttribute("id", 'label'+id_barramento);
+            tipo.setAttribute("class", "bus_label");
+            
+            let tipo2 = select.form.insertBefore(document.createElement('label'), select.nextSibling);
+            tipo2.innerText = file_tipo + ": ";
+            tipo2.setAttribute("id", 'label'+id_barramento);
+            tipo2.setAttribute("class", "bus_label_tipo");
+        }
+    }
 
     form.appendChild(document.createElement('br'));  
     
@@ -208,4 +239,4 @@ function createBusLabels(id_barramento){
     }
     form.appendChild(createInputSubmit());
 }      
-loadTable('json/tabelas/' + url_teste +'.json', loadBus);
+loadTable('json/tabelas/' + url_teste +'.json');

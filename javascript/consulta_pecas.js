@@ -15,6 +15,13 @@ function createH1(file){
     h1.innerText = file.replace("_", " ").replace("_", " ");
     return h1;
 }
+function createAPc(){
+    let a = document.createElement("a");
+    a.setAttribute("href", "adicionar_pc.html");
+    a.setAttribute("class", 'pc');
+    return a;
+}
+
 
 //JSON request
 const json_request = new XMLHttpRequest();
@@ -27,13 +34,23 @@ json_request.onload = () =>{
 
     //imprimindo o resultado
     for (i = 0; i < data.length; i++){
-        let file = data[i];
+        if(data[i] != 'pc'){
+            let file = data[i];
 
-        //inserindo as tags
-        let coluna = document.querySelector("div.coluna");
-        coluna.appendChild(createDiv()).
-        appendChild(createA(file)).
-        appendChild(createH1(file));        
+            //inserindo as tags
+            let coluna = document.querySelector("div.coluna");
+            coluna.appendChild(createDiv()).
+            appendChild(createA(file)).
+            appendChild(createH1(file));            
+        }
     }        
 }
-json_request.send();             
+
+let coluna = document.querySelector("div.coluna");
+coluna.appendChild(createDiv()).
+appendChild(createAPc()).
+appendChild(createH1('pc'));   
+
+json_request.send();
+
+
