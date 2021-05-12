@@ -1,1 +1,1 @@
-[["marca","modelo","descricao","data_montagem","remetente","tipo_tamanho","quant_ventoinhas","medidas_placa_mae","condicoes"],["varchar(100)","varchar(150)","varchar(300)","date","varchar(150)","varchar(100)","int","varchar(150)","varchar(100)"]]
+[["id","marca","modelo","descricao","data_montagem","remetente","tipo_tamanho","quant_ventoinhas","medidas_placa_mae","condicoes","id__pc"],["int","varchar(100)","varchar(150)","varchar(300)","date","varchar(150)","varchar(100)","int","varchar(150)","varchar(100)","int"]]

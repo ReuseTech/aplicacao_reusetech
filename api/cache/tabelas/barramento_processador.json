@@ -1,1 +1,1 @@
-[["soquete","barramento_ram"],["varchar(150)","varchar(150)"]]
+[["id","soquete","barramento_ram"],["int","varchar(150)","varchar(150)"]]

@@ -1,1 +1,1 @@
-[["barramento","tipo"],["varchar(150)","enum('barramento','saidas')"]]
+[["id","barramento","tipo"],["int","varchar(150)","enum('barramento','saidas')"]]

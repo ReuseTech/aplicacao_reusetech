@@ -1,1 +1,1 @@
-[["data_montagem","status","destinatario"],["date","varchar(200)","varchar(150)"]]
+[["id","data_montagem","status","destinatario"],["int","date","varchar(200)","varchar(150)"]]

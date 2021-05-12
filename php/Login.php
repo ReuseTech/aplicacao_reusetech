@@ -31,7 +31,7 @@ class Login{
             die("Login Sem Sucesso, Tente Novamente");
         }else{
             $_SESSION["user"] = $user_information["login"];
-            header("location:../pages/index.php");
+            header("location:../index.php");
         }
     }
 }

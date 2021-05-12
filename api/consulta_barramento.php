@@ -13,10 +13,10 @@
         die("Erro no Banco de Dados");
     }
 
-    $tabela = $_GET[table];
+    $tabela = $_GET['table'];
     $barramento_array = array();
     foreach($consulta as $table){
-        $nome_tabela = $table[Tables_in_dbreusetech];
+        $nome_tabela = $table['Tables_in_dbreusetech'];
         if(strpos($nome_tabela, "barramento") !== False and strpos($nome_tabela, $tabela) !== False and strpos($nome_tabela, "fk_") === False){
             $consultar_pecas = "select * from $table[Tables_in_dbreusetech]";
             $consulta_pecas = mysqli_query($conecta, $consultar_pecas);

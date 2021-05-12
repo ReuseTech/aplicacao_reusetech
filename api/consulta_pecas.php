@@ -17,7 +17,7 @@
     $tabela_values = array();
     $tabela_names = array();
     foreach($consulta as $table){
-        $nome_tabela = $table[Tables_in_dbreusetech];
+        $nome_tabela = $table['Tables_in_dbreusetech'];
             $consultar_pecas = "select * from $table[Tables_in_dbreusetech]";
             $consulta_pecas = mysqli_query($conecta, $consultar_pecas);
 
@@ -31,7 +31,7 @@
                 }
                 array_push($tabela_columns, $columns);
                 array_push($tabela_values, $values);
-                array_push($tabela_names, $table[Tables_in_dbreusetech]);
+                array_push($tabela_names, $table['Tables_in_dbreusetech']);
             }
         
     }

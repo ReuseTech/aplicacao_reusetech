@@ -1,1 +1,1 @@
-[["marca","modelo","descricao","data_montagem","remetente","barramento","tamanho","frequencia","funciona"],["varchar(100)","varchar(150)","varchar(300)","date","varchar(150)","varchar(150)","int","int","tinyint(1)"]]
+[["id","marca","modelo","descricao","data_montagem","remetente","barramento","tamanho","frequencia","funciona","id__pc"],["int","varchar(100)","varchar(150)","varchar(300)","date","varchar(150)","varchar(150)","int","int","tinyint(1)","int"]]
