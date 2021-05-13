@@ -10,17 +10,11 @@ class Selector{
 
     function get_all_tables(){
         if(empty($this->tables)){
-            if(mysqli_query($this->connection->connect_to_db(), "show tables")){
-                $tables_query = mysqli_query($this->connection->connect_to_db(), "show tables");
-    
-                while($table = mysqli_fetch_row($tables_query)){
-                    array_push($this->tables, $table[0]);
-                }
-                return $this->tables;
+            $tables_query = mysqli_query($this->connection->connect_to_db(), "show tables") or die("Falha ao buscar tabelas no banco de dados");
+            while($table = mysqli_fetch_row($tables_query)){
+                array_push($this->tables, $table[0]);
             }
-            else{
-                die("Falha ao buscar tabelas no banco de dados");
-            }
+            return $this->tables;
         }
         else{
             return $this->tables;
@@ -28,9 +22,8 @@ class Selector{
 
     }
     function get_all_rows($table){
-        $query = mysqli_query($this->connection->connect_to_db(), "SHOW COLUMNS FROM $table");
+        $query = mysqli_query($this->connection->connect_to_db(), "SHOW COLUMNS FROM $table") or die("Falha ao buscar rows da tabela $table");;
         $rows = array();
-
         while($row = mysqli_fetch_assoc($query)){
             array_push($rows, $row);
         }
