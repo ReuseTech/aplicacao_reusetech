@@ -1,1 +1,1 @@
-[["id__placa_de_video","id__barramento","quantidade"],["int","int","int"]]
+{"id__placa_de_video":"int","id__barramento":"int","quantidade":"int"}

@@ -1,1 +1,1 @@
-[["id__armazenamento","id__barramento","quantidade"],["int","int","int"]]
+{"id__armazenamento":"int","id__barramento":"int","quantidade":"int"}

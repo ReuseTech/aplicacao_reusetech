@@ -1,1 +1,1 @@
-[["id","marca","modelo","descricao","data_recebimento","remetente","padrao","conexao","funciona"],["int","varchar(100)","varchar(150)","varchar(300)","date","varchar(100)","varchar(50)","varchar(50)","tinyint(1)"]]
+{"id":"int","marca":"varchar(100)","modelo":"varchar(150)","descricao":"varchar(300)","data_recebimento":"date","remetente":"varchar(100)","padrao":"varchar(50)","conexao":"varchar(50)","funciona":"tinyint(1)"}

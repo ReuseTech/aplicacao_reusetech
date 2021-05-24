@@ -1,1 +1,1 @@
-[["id__placa_mae","id__barramento","quantidade"],["int","int","int"]]
+{"id__placa_mae":"int","id__barramento":"int","quantidade":"int"}

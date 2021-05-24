@@ -1,40 +1,67 @@
 <?php
 class Selector{
-    private $tables = array();
-    private $connection;
+    private $mysqli;
     
     function __construct(){
-        require_once("php/Connection.php");
-        $this->connection = new Connection();
+        $this->mysqli = new mysqli("localhost", "root","anthonypro","dbreusetech");
+        if ($this->mysqli->connect_errno) {
+            echo "Falha ao conectar com o MySQL: " . $this->mysqli->connect_error;
+            die();
+        }
     }
 
-    function get_all_tables(){
-        if(empty($this->tables)){
-            $tables_query = mysqli_query($this->connection->connect_to_db(), "show tables") or die("Falha ao buscar tabelas no banco de dados");
-            while($table = mysqli_fetch_row($tables_query)){
-                array_push($this->tables, $table[0]);
-            }
-            return $this->tables;
-        }
-        else{
-            return $this->tables;
-        }
+    function get_table_information($table){
+        $rows_information = array();
 
-    }
-    function get_all_rows($table){
-        $query = mysqli_query($this->connection->connect_to_db(), "SHOW COLUMNS FROM $table") or die("Falha ao buscar rows da tabela $table");;
-        $rows = array();
-        while($row = mysqli_fetch_assoc($query)){
-            array_push($rows, $row);
+        if($table === null){
+            return null;
         }
-        return $rows;
+        foreach($table as $row){
+            $key = $row['Field'];
+            $rows_information["$key"] = $row['Type'];
+        }
+        return $rows_information;
     }
-
-    function get_all_bus(){
+    function get_tables_names(){
+        $tables_names = array();
         
+        $query_result = $this->mysqli->query("show tables") or die("Falha ao buscar tabelas no banco de dados");
+        while($table = $query_result->fetch_row()){
+            array_push($tables_names, $table[0]);
+        }
+        return $tables_names;
+    }
+    function get_table_rows($table_name){
+        $table_columns = array();
+
+        $query_result = $this->mysqli->query("SELECT * FROM $table_name") or die("Falha ao buscar a tabela $table_name");
+        while($row = $query_result->fetch_assoc()){
+            array_push($table_columns, $row);
+        }
+        return $table_columns;
+    }
+
+    function get_table($table_name){
+        $table_columns = array();
+
+        $query_result = $this->mysqli->query("SHOW COLUMNS FROM $table_name") or die("Falha ao buscar a tabela $table_name");
+        while($row = $query_result->fetch_assoc()){
+            array_push($table_columns, $row);
+        }
+        return $table_columns;
+    }
+    function get_table_s_bus($table_name){
+        $bus_columns = array();
+
+        if($query_result = $this->mysqli->query("SHOW COLUMNS FROM barramento_$table_name")){
+            while($row = $query_result->fetch_assoc()){
+                array_push($bus_columns, $row);
+            }
+            return $bus_columns;
+        }
+        return null;
     }
 }
-
 //$selector = new Selector();
-//print_r($selector->get_all_rows("placa_mae"));
+//print_r($selector->get_table_rows('placa_mae'));
 ?>

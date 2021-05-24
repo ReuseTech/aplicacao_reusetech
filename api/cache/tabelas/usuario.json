@@ -1,1 +1,1 @@
-[["login","nome","senha"],["varchar(150)","varchar(150)","varchar(100)"]]
+{"login":"varchar(150)","nome":"varchar(150)","senha":"varchar(100)"}

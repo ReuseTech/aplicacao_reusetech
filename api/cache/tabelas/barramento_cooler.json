@@ -1,1 +1,1 @@
-[["id","suport_soquete","tipo"],["int","varchar(150)","enum('air','passive','water')"]]
+{"id":"int","suport_soquete":"varchar(150)","tipo":"enum('air','passive','water')"}

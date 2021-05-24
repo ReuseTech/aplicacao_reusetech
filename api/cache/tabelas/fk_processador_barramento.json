@@ -1,1 +1,1 @@
-[["id__processador","id__barramento","quantidade"],["int","int","int"]]
+{"id__processador":"int","id__barramento":"int","quantidade":"int"}

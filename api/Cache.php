@@ -9,31 +9,22 @@ class Cache{
     function delete_old_cache(){
         $file_path = "api/cache/tables_list.json";
         unlink($file_path) or die("falha ao excluir cache");
-        foreach (glob("api/cache/tabelas/*.json") as $file_path) {
+        foreach(glob("api/cache/tabelas/*.json") as $file_path) {
             unlink($file_path) or die("falha ao excluir cache");
         }
     }
     function create_tables_list_cache(){
-        $tables_json = json_encode($this->selector->get_all_tables());
+        $tables_json = json_encode($this->selector->get_tables_names());
         $file_path = "api/cache/tables_list.json";
         file_put_contents($file_path, $tables_json) or die("Falha ao criar lista de tabelas em arquivo json");
     }
     function create_tables_rows_cache(){
-        $tables = $this->selector->get_all_tables();
+        $tables = $this->selector->get_tables_names();
         foreach($tables as $table){
             $file_path = "api/cache/tabelas/$table.json";
-            $table_information_json = json_encode($this->get_table_information($table));
+            $table_information_json = json_encode($this->selector->get_table_information($this->selector->get_table($table)));
             file_put_contents($file_path, $table_information_json) or die("Falha ao criar informações da tabela $table em arquivo json");
         }
-    }
-    function get_table_information($table){
-        $rows_names = array();
-        $rows_types = array();
-        foreach($this->selector->get_all_rows($table) as $row){
-            array_push($rows_names, $row['Field']);
-            array_push($rows_types, $row['Type']);
-        }
-        return array($rows_names, $rows_types);
     }
 }
 
