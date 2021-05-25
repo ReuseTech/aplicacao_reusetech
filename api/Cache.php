@@ -3,7 +3,7 @@ class Cache{
     private $selector;
 
     function __construct(){
-        require_once("api/Selector.php");
+        require_once("Selector.php");
         $this->selector = new Selector();
     }
     function delete_old_cache(){
@@ -37,5 +37,5 @@ $cache->delete_old_cache();
 $cache->create_tables_list_cache();
 $cache->create_tables_rows_cache();
 
-header('Location: ../pages/adicionar.html');
+header("Location: pages/adicionar.html");
 ?> 

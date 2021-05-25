@@ -1,8 +1,6 @@
 <?php
     session_start();
-    if(!isset($_SESSION["user"])){
-        header("location:pages/login.html");
-    }
+    isset($_SESSION["user"]) or header("location:pages/login.html");
 ?> 
 <!DOCTYPE html>
 <html lang="pt-br">
