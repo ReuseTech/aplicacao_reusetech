@@ -25,7 +25,7 @@
             </a>
         </div>
         <div id="funcoes">
-            <a href="pages/adicionar.html">
+            <a href="pages/tables_list.php">
                 <h1>Adicionar Peça do Estoque</h1>
                 <p>Click aqui para adicionar peças em nosso estoque</p>
             </a>

@@ -1,3 +1,8 @@
+<?php
+    session_start();
+    isset($_SESSION["user"]) or header("location:../php/login.php");
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -25,6 +30,6 @@
                 <a href="../index.php"><input type="button" value="Voltar"></a>
             </div>
         </main>
-        <script src="../javascript/consulta_pecas.js"></script>
+        <script src="../javascript/show_table_list.js"></script>
     </body>
 </html>

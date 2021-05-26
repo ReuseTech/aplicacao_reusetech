@@ -1,3 +1,8 @@
+<?php
+session_start();
+isset($_SESSION["user"]) or header("location:../php/login.php");
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
