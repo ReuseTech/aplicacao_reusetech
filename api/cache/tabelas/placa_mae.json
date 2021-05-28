@@ -1,0 +1,1 @@
+{"id":"int","marca":"varchar(100)","modelo":"varchar(150)","descricao":"varchar(300)","data_montagem":"date","remetente":"varchar(150)","soquete":"varchar(150)","chipset":"varchar(150)","funciona_ethernet":"tinyint(1)","funciona":"tinyint(1)","id__pc":"int"}

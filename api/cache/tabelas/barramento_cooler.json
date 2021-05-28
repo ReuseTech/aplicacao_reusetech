@@ -1,0 +1,1 @@
+{"id":"int","suport_soquete":"varchar(150)","tipo":"enum('air','passive','water')"}

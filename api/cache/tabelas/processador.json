@@ -1,0 +1,1 @@
+{"id":"int","marca":"varchar(100)","modelo":"varchar(150)","descricao":"varchar(300)","data_montagem":"date","remetente":"varchar(150)","quantidade_nucleos":"int","quantidade_threads":"int","possui_graficos_integrados":"tinyint(1)","tdp":"int","funciona":"tinyint(1)","id__pc":"int"}

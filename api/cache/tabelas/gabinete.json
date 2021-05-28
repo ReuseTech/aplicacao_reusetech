@@ -1,0 +1,1 @@
+{"id":"int","marca":"varchar(100)","modelo":"varchar(150)","descricao":"varchar(300)","data_montagem":"date","remetente":"varchar(150)","tipo_tamanho":"varchar(100)","quant_ventoinhas":"int","medidas_placa_mae":"varchar(150)","condicoes":"varchar(100)","id__pc":"int"}
