@@ -1,149 +1,170 @@
-//pegando o nome da tabela
-let url_teste = window.location.href.substring(window.location.href.indexOf("?") + 1);
-url_teste = url_teste.substring(url_teste.indexOf("=") + 1);
-
-//criando as tags
-function createH(hN){
-    let h = document.createElement(hN);
-    h.innerText = url_teste.replace("_", " ").replace("_", " ");
-    return h;
-}
-function createLabel(file, file_tipo){
-    let label = document.createElement('label');
-    label.innerText = 'Coluna: ' + file.replace("_", " ").replace("_", " ") + ' | Tipo: ' + file_tipo;
-    return label;
-}
-function createLabelBarramento(file){
-    let label = document.createElement('label');
-    label.innerText = 'Coluna: ' + file.replace("_", " ").replace("_", " ");
-    return label;
-}
-function createInput(file, inputType){
-    let input = document.createElement('input');
-    input.setAttribute('placeholder', file);
-    input.setAttribute('name', file);
-    input.setAttribute('type', inputType);
-    return input;
-}
-function createInputSubmit(){
-    let input_submit = document.createElement('input');
-    input_submit.setAttribute('type', 'submit');
-    input_submit.setAttribute('value', 'Enviar');
-    input_submit.setAttribute('name', 'Enviar');
-    return input_submit;
-}
-function createInputHidden(){
-    let input_hidden = document.createElement('input');
-    input_hidden.setAttribute('value', url_teste);
-    input_hidden.setAttribute('name', 'table');
-    input_hidden.setAttribute('type', 'hidden');
-    return input_hidden;
-}
-function createButton(){
-    let button = document.createElement('button');
-    button.setAttribute('type', 'button');
-    let barramento = "adicionarBarramento('barramento_"+url_teste+"')";
-    button.setAttribute('onclick', barramento);
-    button.innerText = 'Adicionar barramento';
-    return button;
-}
-function createSelect(barramento){
-    let select = document.createElement('select');
-    select.setAttribute('name', 'barramento[]')
-    select.setAttribute('id', barramento); 
-    select.appendChild(createOption(""));
-    
-    select.setAttribute('onchange', "createBusLabels("+barramento+")");
-    return select;
+let loadJson = (method, url) => {
+    return new Promise((resolve, reject) =>{
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'json';
+        xhr.open(method, url);
+        xhr.onload = () => resolve(xhr.response);
+        xhr.onerror = () => reject(null);
+        xhr.send();
+    })
 }
 
-function createOption(barramento, barramento_id){
-    let option = document.createElement('option');
-    option.setAttribute('value', barramento_id);
-    option.innerText = barramento;
-    return option;
+let getTableName = () => {
+    const queryString = window.location.search;
+    const urlSearch = new URLSearchParams(queryString);
+    return urlSearch.get('table');
 }
 
-//criando o select dos barramentos
-function createSelectBarramento(documentoPai, Id, data){
-    documentoPai.appendChild(createSelect(Id));
-    for(o = 0; o < data[0].length; o++){
-        document.getElementById(Id).appendChild(createOption(data[0][o][1], data[0][o][0]));
+class DomElements {
+    constructor(table_name) {
+        this.table_name = table_name;
     }
-}
 
-//pegando o tipo do input
-function inputType(file_tipo){
-    let inputType = null;
-    if (file_tipo.includes("int") || file_tipo == "int" || file_tipo == "float" || file_tipo == "decimal" || file_tipo == "real"){
-        inputType = "number";
+    createH1 = (innerText) => {
+        let h = document.createElement('h1');
+        h.innerText = this.removeUnderlines(innerText);
+        return h;
     }
-    else if(file_tipo.includes("char") || file_tipo == "char" || file_tipo == "binary" || file_tipo == "text" || file_tipo == "blob" || file_tipo == "enum" || file_tipo == "set"){
-        inputType = "text";
+    createLabel = (columnName, columnType) => {
+        let label = document.createElement('label');
+        label.innerText = 'Coluna: ' + this.removeUnderlines(columnName) + ' || tipo: ' + this.removeUnderlines(columnType);
+        return label;
     }
-    else if(file_tipo.includes("time") || file_tipo == "date"){
-        inputType = "date";
+    createInput = (file, inputType) => {
+        let input = document.createElement('input');
+        input.setAttribute('placeholder', this.removeUnderlines(file));
+        input.setAttribute('name', file);
+        input.setAttribute('type', inputType);
+        return input;
     }
-    return inputType;
-}
+    createInputSubmit = () => {
+        let input_submit = document.createElement('input');
+        input_submit.setAttribute('type', 'submit');
+        input_submit.setAttribute('value', 'Enviar');
+        input_submit.setAttribute('name', 'Enviar');
+        return input_submit;
+    }
+    createInputHidden = () => {
+        let input_hidden = document.createElement('input');
+        input_hidden.setAttribute('value', this.table_name);
+        input_hidden.setAttribute('name', 'table');
+        input_hidden.setAttribute('type', 'hidden');
+        return input_hidden;
+    }
+    createButton = () => {
+        let button = document.createElement('button');
+        button.setAttribute('type', 'button');
+        let barramento = "adicionarBarramento('barramento_" + this.table_name + "')";
+        button.setAttribute('onclick', barramento);
+        button.innerText = 'Adicionar barramento';
+        return button;
+    }
 
-//carregando a tabela e os barramentos
-let tabela = null
-function loadTable(path, callBack){
-        //JSON request
+    removeUnderlines = (innerText) => {
+        let newText = innerText.replace(/_/g, " ");
+        return newText;
+    }
+    /*
+    let createSelect = (barramento) => {
+        let select = document.createElement('select');
+        select.setAttribute('name', 'barramento[]')
+        select.setAttribute('id', barramento); 
+        select.appendChild(createOption(""));
         
-        const json_request = new XMLHttpRequest();
-        json_request.open('GET', path ,true);
-        json_request.responseType = 'json';
+        select.setAttribute('onchange', "createBusLabels("+barramento+")");
+        return select;
+    }
     
-        //assim que o json carregar
-        json_request.onload = () =>{
-            tabela = json_request.response;
-            callBack('api/consulta_barramento.php?table=barramento_'+url_teste);
-        }
-        json_request.send();
-}
-let bus = null
-function loadBus(path){
-        //JSON request
-        
-        const json_request = new XMLHttpRequest();
-        json_request.open('GET', path ,true);
-        json_request.responseType = 'json';
+    let createOption = (barramento, barramento_id) => {
+        let option = document.createElement('option');
+        option.setAttribute('value', barramento_id);
+        option.innerText = barramento;
+        return option;
+    }
     
-        //assim que o json carregar
-        json_request.onload = () =>{
-            bus = json_request.response;
-            adicionarTabela(tabela);
+    //criando o select dos barramentos
+    let createSelectBarramento = (documentoPai, Id, data) =>{
+        documentoPai.appendChild(createSelect(Id));
+        for(o = 0; o < data[0].length; o++){
+            document.getElementById(Id).appendChild(createOption(data[0][o][1], data[0][o][0]));
         }
-        json_request.send();
+    }
+    */
 }
+
+class TableForm {
+    constructor() {
+        this.form = document.querySelector('form');
+    }
+
+    createForm = (tableColumns) => { 
+        this.form.appendChild(domElements.createInputHidden()); //necessário para mandar para o back-end o nome da peça
+
+        for(let columnName in tableColumns){
+            this.form.appendChild(domElements.createLabel(columnName, tableColumns[columnName]));
+            this.form.appendChild(domElements.createInput(columnName, this.getInputType(tableColumns[columnName])));
+            this.form.appendChild(document.createElement('br'));
+        }
+        this.autoRecreateInputSubmit();
+    }
+
+    createTitle = (innerText) => {
+        let body = document.querySelector('body');
+        body.insertBefore(domElements.createH1(innerText), body.childNodes[2]);
+    }
+
+    getInputType = (file_tipo) => {
+        let inputType = null;
+        if (file_tipo.includes("int") || file_tipo == "int" || file_tipo == "float" || file_tipo == "decimal" || file_tipo == "real"){
+            inputType = "number";
+        }
+        else if(file_tipo.includes("char") || file_tipo == "char" || file_tipo == "binary" || file_tipo == "text" || file_tipo == "blob" || file_tipo == "enum" || file_tipo == "set"){
+            inputType = "text";
+        }
+        else if(file_tipo.includes("time") || file_tipo == "date"){
+            inputType = "date";
+        }
+        return inputType;
+    }
+
+    autoRecreateInputSubmit = () => {
+        if(document.querySelector("input[name='Enviar']")){
+            document.querySelector("input[name='Enviar']").remove();
+        }
+        this.form.appendChild(domElements.createInputSubmit());
+    }
+}
+
+let tableForm = new TableForm();
+let domElements = new DomElements(getTableName());
+
+loadJson('POST', '../api/cache/tabelas/' + getTableName() + '.json')
+    .then((pieces_list) => {
+        tableForm.createTitle(getTableName());
+        tableForm.createForm(pieces_list);
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+
 
 //imprimindo a tabela
-function adicionarTabela(tabela){      
-    let data = tabela;
-    let form = document.querySelector('form');
 
-    form.appendChild(createH('h1', url_teste));
-    form.appendChild(createInputHidden(url_teste));
-
-    for(i = 0; i < data[0].length; i++){
-        let file = data[0][i];
-        let file_tipo = data[1][i];
-        
-        form.appendChild(createLabel(file, file_tipo));
-        form.appendChild(createInput(file, inputType(file_tipo)));
-        form.appendChild(document.createElement('br'));
-    }
-
-    if(bus[1] != null){
-        form.appendChild(createButton(url_teste));  
-    }
-    if(document.querySelector("input[name='Enviar']")){
-        document.querySelector("input[name='Enviar']").remove();
-    }
-    form.appendChild(createInputSubmit());
-}
 function adicionarBarramento(url_barramento){
     let data = bus;
     
@@ -209,3 +230,4 @@ function createBusLabels(id_barramento){
     form.appendChild(createInputSubmit());
 }      
 loadTable('json/tabelas/' + url_teste +'.json', loadBus);
+*/
