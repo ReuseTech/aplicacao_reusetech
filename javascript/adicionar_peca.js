@@ -8,33 +8,36 @@ let loadJson = (method, url) => {
         xhr.send();
     })
 }
-
 let getTableName = () => {
     const queryString = window.location.search;
     const urlSearch = new URLSearchParams(queryString);
     return urlSearch.get('table');
 }
+let ifExistsRemoveTagElement = (querySelector) => {
+    if(document.querySelector(querySelector)) {
+        document.querySelector(querySelector).remove();
+    }
+}
 
 class DomElements {
-    constructor(table_name) {
-        this.table_name = table_name;
-    }
-
-    createH1 = (innerText) => {
+    createH1WithInnerText = (innerText) => {
         let h = document.createElement('h1');
-        h.innerText = this.removeUnderlines(innerText);
+        h.innerText = this.removeUnderlinesFrom(innerText);
+
         return h;
     }
-    createLabel = (columnName, columnType) => {
+    createLabelWithColumnNameAndMySQLType = (columnName, columnType) => {
         let label = document.createElement('label');
-        label.innerText = 'Coluna: ' + this.removeUnderlines(columnName) + ' || tipo: ' + this.removeUnderlines(columnType);
+        label.innerText = 'Coluna: ' + this.removeUnderlinesFrom(columnName) + ' || tipo: ' + this.removeUnderlinesFrom(columnType);
+
         return label;
     }
-    createInput = (file, inputType) => {
+    createInputWithNameAndType = (inputName, inputType) => {
         let input = document.createElement('input');
-        input.setAttribute('placeholder', this.removeUnderlines(file));
-        input.setAttribute('name', file);
+        input.setAttribute('placeholder', this.removeUnderlinesFrom(inputName));
+        input.setAttribute('name', inputName);
         input.setAttribute('type', inputType);
+
         return input;
     }
     createInputSubmit = () => {
@@ -42,78 +45,123 @@ class DomElements {
         input_submit.setAttribute('type', 'submit');
         input_submit.setAttribute('value', 'Enviar');
         input_submit.setAttribute('name', 'Enviar');
+
         return input_submit;
     }
-    createInputHidden = () => {
-        let input_hidden = document.createElement('input');
-        input_hidden.setAttribute('value', this.table_name);
-        input_hidden.setAttribute('name', 'table');
-        input_hidden.setAttribute('type', 'hidden');
-        return input_hidden;
+    createInputHiddenWithTableName = (tableName) => {
+        let inputHidden = document.createElement('input');
+        inputHidden.setAttribute('value', tableName);
+        inputHidden.setAttribute('name', 'table');
+        inputHidden.setAttribute('type', 'hidden');
+
+        return inputHidden;
     }
-    createButton = () => {
+    createButtonWithCallback = (callBack) => {
         let button = document.createElement('button');
         button.setAttribute('type', 'button');
-        let barramento = "adicionarBarramento('barramento_" + this.table_name + "')";
-        button.setAttribute('onclick', barramento);
+        button.addEventListener("click", callBack);
         button.innerText = 'Adicionar barramento';
         return button;
     }
 
-    removeUnderlines = (innerText) => {
-        let newText = innerText.replace(/_/g, " ");
-        return newText;
+    createDivWithSelectId = (selectId) => {
+        let busDiv = document.createElement('div');
+        busDiv.setAttribute('id', selectId);
+
+        return busDiv;
     }
-    /*
-    let createSelect = (barramento) => {
+
+    createSelectAboutRows = (tableRows) => {
         let select = document.createElement('select');
-        select.setAttribute('name', 'barramento[]')
-        select.setAttribute('id', barramento); 
-        select.appendChild(createOption(""));
+        select.setAttribute('name', document.getElementsByTagName('select').length);
+        select.setAttribute('id', document.getElementsByTagName('select').length);
+        select.appendChild(document.createElement('option'));
+
+        //TODO melhorar isso aqui
+        for(let i = 0; i < tableRows.length; i++){
+            let optionName = Object.keys(tableRows[1])[1];
+            optionName = tableRows[i][optionName];
+            let busId = tableRows[i]['id'];
+
+            select.appendChild(
+                this.createOptionWithInnerTextAndValue(optionName, busId)
+            );
+        }
+
+        select.getCorrectBusToSelectValue = () => {
+            for(let i = 0; i < tableRows.length; i++) {
+                if(tableRows[i]['id'] == select.value){
+                    return tableRows[i];
+                }
+            }
+        }
         
-        select.setAttribute('onchange', "createBusLabels("+barramento+")");
         return select;
     }
-    
-    let createOption = (barramento, barramento_id) => {
+
+    createOptionWithInnerTextAndValue = (innerText, value) => {
         let option = document.createElement('option');
-        option.setAttribute('value', barramento_id);
-        option.innerText = barramento;
+        option.setAttribute('value', value);
+        option.innerText = innerText;
+
         return option;
     }
-    
-    //criando o select dos barramentos
-    let createSelectBarramento = (documentoPai, Id, data) =>{
-        documentoPai.appendChild(createSelect(Id));
-        for(o = 0; o < data[0].length; o++){
-            document.getElementById(Id).appendChild(createOption(data[0][o][1], data[0][o][0]));
-        }
+
+    removeUnderlinesFrom = (innerText) => {
+        let newText = innerText.replace(/_/g, " ");
+
+        return newText;
     }
-    */
 }
 
 class TableForm {
     constructor() {
-        this.form = document.querySelector('form');
+        this.dom = new DomElements();
     }
 
-    createForm = (tableColumns) => { 
-        this.form.appendChild(domElements.createInputHidden()); //necessário para mandar para o back-end o nome da peça
+    generateFormAbout = (tableColumns) => { 
+        this.getForm().appendChild(this.dom.createInputHiddenWithTableName(getTableName())); //necessário para mandar para o back-end o nome da peça
 
         for(let columnName in tableColumns){
-            this.form.appendChild(domElements.createLabel(columnName, tableColumns[columnName]));
-            this.form.appendChild(domElements.createInput(columnName, this.getInputType(tableColumns[columnName])));
-            this.form.appendChild(document.createElement('br'));
+            if(columnName !== "id__pc" && columnName !== 'id') {
+                this.getForm().appendChild(
+                    this.dom.createLabelWithColumnNameAndMySQLType(columnName, tableColumns[columnName])
+                );
+                this.getForm().appendChild(
+                    this.dom.createInputWithNameAndType(columnName, this.getInputTypeFrom(tableColumns[columnName]))
+                );
+                this.getForm().appendChild(document.createElement('br'));
+            }
         }
         this.autoRecreateInputSubmit();
     }
+    createUnchangableFormAbout = (tableColumns, select) => {
+        let busDiv = this.dom.createDivWithSelectId(select.id);
 
-    createTitle = (innerText) => {
-        let body = document.querySelector('body');
-        body.insertBefore(domElements.createH1(innerText), body.childNodes[2]);
+        let h1Bus = busDiv.appendChild(document.createElement('h1'));  
+        h1Bus.innerText = "Barramento " + getTableName();
+
+        for(let columnName in tableColumns){
+            busDiv.appendChild(
+                this.dom.createLabelWithColumnNameAndMySQLType(columnName, tableColumns[columnName])
+            );
+            let input = busDiv.appendChild( 
+                this.dom.createInputWithNameAndType(columnName, this.getInputTypeFrom(tableColumns[columnName]))
+            );
+            input.value = select.getCorrectBusToSelectValue()[columnName];
+            input.readOnly = true;
+        }
+
+        return busDiv;
+        
     }
 
-    getInputType = (file_tipo) => {
+    createTitleWith = (innerText) => {
+        let body = document.querySelector('body');
+        body.insertBefore(this.dom.createH1WithInnerText(innerText), body.childNodes[2]);
+    }
+
+    getInputTypeFrom = (file_tipo) => {
         let inputType = null;
         if (file_tipo.includes("int") || file_tipo == "int" || file_tipo == "float" || file_tipo == "decimal" || file_tipo == "real"){
             inputType = "number";
@@ -131,103 +179,57 @@ class TableForm {
         if(document.querySelector("input[name='Enviar']")){
             document.querySelector("input[name='Enviar']").remove();
         }
-        this.form.appendChild(domElements.createInputSubmit());
+        this.getForm().appendChild(this.dom.createInputSubmit());
+    }
+    
+    getForm() {
+        return document.querySelector('form');
     }
 }
 
 let tableForm = new TableForm();
-let domElements = new DomElements(getTableName());
+let domElementsBus = new DomElements();
+let tableFormBus = new TableForm();
 
-loadJson('POST', '../api/cache/tabelas/' + getTableName() + '.json')
-    .then((pieces_list) => {
-        tableForm.createTitle(getTableName());
-        tableForm.createForm(pieces_list);
-    }
+loadJson('POST', '../api/cache/tabelas/' + getTableName() + '.json').then((namesAndTypesOfColumns) => {
+    tableForm.createTitleWith(getTableName());
+    tableForm.generateFormAbout(namesAndTypesOfColumns);
+})
+.then(
+    loadJson('POST', '../api/cache/tabelas/' + "barramento_" + getTableName() + '.json')
+    .then((namesAndTypesOfColumns) => {
+        loadJson('POST', '../api/select_table_rows.php?table=barramento_' + getTableName())
+        .then((busesRows) => {
+            if(namesAndTypesOfColumns !== null) {
+                let form = tableForm.getForm();
+
+                form.appendChild(domElementsBus.createButtonWithCallback(() => {
+                        form.appendChild(document.createElement('br'));
+                        form.appendChild(document.createElement('br'));
+
+                        let select = form.appendChild(
+                            domElementsBus.createSelectAboutRows(busesRows)
+                        );
+                        let removeSelectButton = form.appendChild(domElementsBus.createButtonWithCallback(() => {
+                            ifExistsRemoveTagElement(`div[id='${select.name}']`);
+                            select.remove();
+                            removeSelectButton.remove();
+                        })
+                        );
+                        removeSelectButton.innerText = "Remover Select";
+
+                        select.onchange = () => {
+                            ifExistsRemoveTagElement(`div[id='${select.name}']`);
+
+                            let selectDiv = tableFormBus.createUnchangableFormAbout(namesAndTypesOfColumns, select);
+                            form.insertBefore(selectDiv, removeSelectButton.nextSibling)
+                        }
+                        tableFormBus.autoRecreateInputSubmit();
+                    })
+                );
+                        
+                tableFormBus.autoRecreateInputSubmit();
+            }
+        })
+    })
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-
-
-//imprimindo a tabela
-
-function adicionarBarramento(url_barramento){
-    let data = bus;
-    
-    //imprimindo o resultado
-    let form = document.querySelector('form');
-
-    form.appendChild(createH('h4', url_barramento));
-
-    //criando os select
-    if (document.querySelector('select')){ 
-        let numId = document.querySelectorAll('select');
-        let numIdId = numId[numId.length -1].id;
-        let id = parseInt(numIdId) + 1;
-        createSelectBarramento(form, id, data);
-    }
-    else{
-        createSelectBarramento(form, 1, data);
-    }
-
-    if(document.querySelector("input[name='Enviar']")){
-        document.querySelector("input[name='Enviar']").remove();
-    }
-    form.appendChild(createInputSubmit());
-}
-function createBusLabels(id_barramento){
-    let form = document.querySelector('form');
-    let select = document.getElementById(id_barramento);
-
-    let file = bus[0][parseInt(select.value)-1][1];
-    let file_tipo = bus[1][1];
-    let file2 = bus[0][parseInt(select.value)-1][2];
-    let file2_tipo = bus[1][2];
-
-    while(document.querySelector("#label" + id_barramento.toString())){
-        document.querySelector("#label" + id_barramento.toString()).remove();
-    }
-
-
-    //criando os labels de acordo com option escolhido
-    let tipo = select.form.insertBefore(document.createElement('label'), select.nextSibling);
-    tipo.innerText = file2;
-    tipo.setAttribute("id", 'label'+id_barramento);
-    tipo.setAttribute("class", "bus_label");
-    let tipo2 = select.form.insertBefore(document.createElement('label'), select.nextSibling);
-    tipo2.innerText = file2_tipo;
-    tipo2.setAttribute("id", 'label'+id_barramento);
-    tipo2.setAttribute("class", "bus_label_tipo");  
-
-    let barramento = select.form.insertBefore(document.createElement('label'), select.nextSibling);
-    barramento.innerText = file;
-    barramento.setAttribute('id', 'label'+id_barramento);
-    barramento.setAttribute("class", "bus_label");
-    let barramento2 = select.form.insertBefore(document.createElement('label'), select.nextSibling);
-    barramento2.innerText = file_tipo;
-    barramento2.setAttribute('id', 'label'+id_barramento);
-    barramento2.setAttribute("class", "bus_label_tipo");
-
-    form.appendChild(document.createElement('br'));  
-    
-    if(document.querySelector("input[name='Enviar']")){
-        document.querySelector("input[name='Enviar']").remove();
-    }
-    form.appendChild(createInputSubmit());
-}      
-loadTable('json/tabelas/' + url_teste +'.json', loadBus);
-*/
