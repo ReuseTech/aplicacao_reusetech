@@ -61,6 +61,7 @@ class Selector{
         }
         return null;
     }
+
 }
 //$selector = new Selector();
 //print_r($selector->get_table_rows('placa_mae'));
