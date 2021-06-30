@@ -73,7 +73,7 @@ class DomElements {
 
     createSelectAboutRows = (tableRows) => {
         let select = document.createElement('select');
-        select.setAttribute('name', document.getElementsByTagName('select').length);
+        select.setAttribute('name', 'busesIds[]');
         select.setAttribute('id', document.getElementsByTagName('select').length);
         select.appendChild(document.createElement('option'));
 
@@ -120,7 +120,7 @@ class TableForm {
     }
 
     generateFormAbout = (tableColumns) => { 
-        this.getForm().appendChild(this.dom.createInputHiddenWithTableName(getTableName())); //necessário para mandar para o back-end o nome da peça
+        this.getForm().appendChild(this.dom.createInputHiddenWithTableName(getTableName())); //necessário para mandar informações para o back-end
 
         for(let columnName in tableColumns){
             if(columnName !== "id__pc" && columnName !== 'id') {
@@ -200,6 +200,7 @@ loadJson('POST', '../api/cache/tabelas/' + getTableName() + '.json').then((names
     .then((namesAndTypesOfColumns) => {
         loadJson('POST', '../api/select_table_rows.php?table=barramento_' + getTableName())
         .then((busesRows) => {
+            console.log(busesRows);
             if(namesAndTypesOfColumns !== null) {
                 let form = tableForm.getForm();
 
@@ -211,7 +212,7 @@ loadJson('POST', '../api/cache/tabelas/' + getTableName() + '.json').then((names
                             domElementsBus.createSelectAboutRows(busesRows)
                         );
                         let removeSelectButton = form.appendChild(domElementsBus.createButtonWithCallback(() => {
-                            ifExistsRemoveTagElement(`div[id='${select.name}']`);
+                            ifExistsRemoveTagElement(`div[id='${select.id}']`);
                             select.remove();
                             removeSelectButton.remove();
                         })
@@ -219,7 +220,7 @@ loadJson('POST', '../api/cache/tabelas/' + getTableName() + '.json').then((names
                         removeSelectButton.innerText = "Remover Select";
 
                         select.onchange = () => {
-                            ifExistsRemoveTagElement(`div[id='${select.name}']`);
+                            ifExistsRemoveTagElement(`div[id='${select.id}']`);
 
                             let selectDiv = tableFormBus.createUnchangableFormAbout(namesAndTypesOfColumns, select);
                             form.insertBefore(selectDiv, removeSelectButton.nextSibling)
