@@ -1,9 +1,5 @@
 form {
-    margin: auto;
-    max-width: 600px;
-    margin-top: 50px;
-    padding: 15px 30px;
-   
+
 }
 input[type=text], input[type=password], input[type="number"] {
     width: 100%;
@@ -11,34 +7,38 @@ input[type=text], input[type=password], input[type="number"] {
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
+    border-radius: 10px;
     box-sizing: border-box;
   }
- input[type=submit] {
-    width: 100%;
-    background-color: #5c8055;
-    color: white;
-    padding: 14px 20px;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  input[type=submit]:hover{
-    opacity: 0.8;
-  }
-  form h1{
-      text-align: center;
-      margin: 0;
-      color: #575857;
-  }
-  form p{
+input[type=submit] {
+  width: 100%;
+  background-color: #53CF65;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 20px;
+  
+}
+input[type=submit]:hover{
+  opacity: 0.8;
+}
+form h1{
     text-align: center;
-    color: white;
-    padding: 10px;
-  }
-  .bus_label{
-    margin-left: 20px;
-    background-color: white;
-    padding: 15px;
-    border-radius: 2px;
-    font-size: 10px;
-  }
+    margin: 0;
+    color: #43EB66;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+form p{
+  text-align: center;
+  color: white;
+  padding: 10px;
+}
+.bus_label{
+  margin-left: 20px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 2px;
+  font-size: 10px;
+}

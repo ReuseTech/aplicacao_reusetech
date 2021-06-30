@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="grid-container">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,20 +8,38 @@
         <link rel="stylesheet" href="../css/main.css">
         <link rel="stylesheet" href="../css/header.css">
         <link rel="stylesheet" href="../css/form.css">
+        <link rel="stylesheet" href="../css/login.css">
+        <link rel="stylesheet" href="../css/style.css">
 
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=BioRhyme&display=swap" rel="stylesheet">
     </head>
-    <body>
-        <header>
-            <img src="images/reusetech.png" alt="ReuseTech">
-            <h1>ReuseTech</h1>
-        </header>
-        <main>
-            <form action="../php/Login.php" method="POST">
-                <h1>Login</h1>
-                <input type="text" name="user" placeholder="Usuário"><br>
-                <input type="password" name="password" placeholder="Senha"><br>
-                <input type="submit" value="Entrar">
-            </form>
-        </main>
+    <body class="grid-container">
+        <div id="login" class="grid-container-login">
+
+            <section>
+                <div id="form-Login">
+                    <h1>Login</h1>
+                    <form action="../php/Login.php" method="POST">
+                        <input type="text" name="user" placeholder="Usuário"><br>
+                        <input type="password" name="password" placeholder="Senha"><br>
+                        <input type="submit" value="Entrar">
+                    </form>
+                </div>
+            </section>
+            
+            <aside>
+                <div id="title">
+                    <h1>Reuse</h1>
+                    <h1>Tech</h1> 
+                </div>
+                <div id="title2">
+                    <h2>Bem vindo ao Sistema Gerenciador de Estoque</h2>
+                </div>
+            </aside>
+
+        </div>
     </body>
 </html>
