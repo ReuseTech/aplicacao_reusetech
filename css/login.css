@@ -1,28 +1,64 @@
 html {
     height: 100%;
 }
-body {
-    background-image: linear-gradient(to bottom right, #43EB66, #daffe2);
-    height: 85%;
+
+@media (max-width: 600px) {
+    body {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .grid-container-login {
+        height: 100%;
+
+        display: grid;
+        grid-template-rows: auto 1fr;
+        grid-template-areas: "b"
+                            "a";
+        grid-template-columns: 1fr;
+    }
+
+    section {
+        grid-area: a;
+    }
+    aside {
+        grid-area: b;
+
+        background-color: black;
+    }
 }
-.grid-container {
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr;
-    justify-items: center;
-    align-items: center;
+@media (min-width: 600px) {
+    body {
+        background-image: linear-gradient(to bottom right, #43EB66, #daffe2);
+        height: 85%;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr;
+        justify-items: center;
+        align-items: center;
+    }
+    .grid-container-login {
+        display: grid;
+        grid-template-columns: 60% 40%;
+        grid-template-rows: 1fr;
+    }
+
+    div#login {
+        background: linear-gradient(90deg, white 60%, #40e965 50%, #53CF65);
+        width: clamp(400px, 60%, 80%);
+        height: 100%;
+        border-radius: 20px;
+        box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.466);
+    }
+
+    aside {
+        background-image: url('../images/reusetech-transparente.png');
+    }
 }
-.grid-container-login {
-    display: grid;
-    grid-template-columns: 60% 40%;
-}
-div#login {
-    background: linear-gradient(90deg, white 60%, #40e965 50%, #53CF65);
-    width: clamp(400px, 60%, 80%);
-    height: 100%;
-    border-radius: 20px;
-    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.466);
-}
+
 
 h1, h2 {
     font-size: clamp(40px, 60px, 80px); 
@@ -70,7 +106,6 @@ section div#form-Login {
 }
 
 aside{
-    background-image: url('../images/reusetech-transparente.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100%;
