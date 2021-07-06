@@ -160,7 +160,6 @@ function adicionarTabela(tabela){
         
         form.appendChild(createLabel(file, file_tipo));
         form.appendChild(createInput(file, inputType(file_tipo)));
-        form.appendChild(document.createElement('br'));
     }
 
     /*
@@ -231,8 +230,6 @@ function createBusLabels(id_barramento){
             tipo2.setAttribute("class", "bus_label_tipo");
         }
     }
-
-    form.appendChild(document.createElement('br'));  
     
     if(document.querySelector("input[name='Enviar']")){
         document.querySelector("input[name='Enviar']").remove();

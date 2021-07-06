@@ -29,6 +29,7 @@ let showPc = () => {
 let createDiv = () => {
     let div = document.createElement("div");
     div.setAttribute("class", "peca");
+    div.setAttribute('id', 'funcoes');
 
     return div;
 }

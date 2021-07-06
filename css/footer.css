@@ -1,0 +1,13 @@
+footer {
+    border-top: 1px solid lightgray;
+    background: #1E9E38;
+
+    text-align: center;
+
+    padding-bottom: 10px;
+}
+
+footer h2, h3 {
+    margin: 0px;
+    color: white;
+}

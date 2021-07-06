@@ -18,17 +18,11 @@ let loadPiecesNamesAndRows = (pathToGetName, pathToGetRows) => {
                     let form = tableForm.getForm();
     
                     let addSelectButton = form.appendChild(domElementsBus.createButtonWithCallback(() => {
-                            form.appendChild(document.createElement('br'));
-                            form.appendChild(document.createElement('br'));
-
 
                             let select = form.insertBefore(
                                 domElementsBus.createSelectAboutRows(busesRows),
                                 addSelectButton.nextSibling
                             );
-                            form.insertBefore(document.createElement('br'), select);
-                            form.insertBefore(document.createElement('br'), select);
-
 
                             let removeSelectButton = form.insertBefore(domElementsBus.createButtonWithCallback(() => {
                                 ifExistsRemoveTagElement(`div[id='${select.name}']`);
@@ -45,7 +39,6 @@ let loadPiecesNamesAndRows = (pathToGetName, pathToGetRows) => {
                                 let selectDiv = tableFormBus.createUnchangableFormAbout(namesAndTypesOfColumns, select);
                                 form.insertBefore(selectDiv, removeSelectButton.nextSibling)
                             }
-                            form.insertBefore(document.createElement('br'), removeSelectButton.nextSibling);
 
                             tableFormBus.autoRecreateInputSubmit();
                         })
@@ -191,7 +184,6 @@ class TableForm {
                 this.getForm().appendChild(
                     this.dom.createInputWithNameAndType(columnName, this.getInputTypeFrom(tableColumns[columnName]))
                 );
-                this.getForm().appendChild(document.createElement('br'));
             }
         }
         this.autoRecreateInputSubmit();
@@ -264,7 +256,6 @@ loadJson('POST', '../api/cache/tabelas/pc.json').then((namesAndTypesOfColumns) =
                 loadPiecesNamesAndRows('../api/cache/tabelas/' + piecesNameList[i] + '.json', '../api/select_table_rows.php?table=' + piecesNameList[i])
                 .then((button) => {
                     button.innerText = "Adicionar " + domElementsBus.removeUnderlinesFrom(piecesNameList[i]);
-                    tableForm.getForm().appendChild(document.createElement('br'));
                 })
             }
         }

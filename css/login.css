@@ -76,6 +76,8 @@ input[type=text], input[type=password], input[type="number"] {
 
     border: 1px solid #ccc;
     border-radius: 10px;
+
+    box-sizing: border-box;
 }
 input[type=submit] {
     font-size: clamp(10px, 20px, 30px);

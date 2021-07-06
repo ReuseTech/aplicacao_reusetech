@@ -130,7 +130,6 @@ class TableForm {
                 this.getForm().appendChild(
                     this.dom.createInputWithNameAndType(columnName, this.getInputTypeFrom(tableColumns[columnName]))
                 );
-                this.getForm().appendChild(document.createElement('br'));
             }
         }
         this.autoRecreateInputSubmit();
@@ -157,8 +156,10 @@ class TableForm {
     }
 
     createTitleWith = (innerText) => {
-        let body = document.querySelector('body');
-        body.insertBefore(this.dom.createH1WithInnerText(innerText), body.childNodes[2]);
+        let body = document.querySelector('form');
+        let h1 = this.dom.createH1WithInnerText(innerText);
+        h1.setAttribute('id', 'title');
+        body.insertBefore(h1, body.childNodes[2]);
     }
 
     getInputTypeFrom = (file_tipo) => {
@@ -205,8 +206,6 @@ loadJson('POST', '../api/cache/tabelas/' + getTableName() + '.json').then((names
                 let form = tableForm.getForm();
 
                 form.appendChild(domElementsBus.createButtonWithCallback(() => {
-                        form.appendChild(document.createElement('br'));
-                        form.appendChild(document.createElement('br'));
 
                         let select = form.appendChild(
                             domElementsBus.createSelectAboutRows(busesRows)

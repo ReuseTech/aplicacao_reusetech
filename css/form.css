@@ -1,7 +1,26 @@
-form {
+body {
+  text-align: center;
 
 }
-input[type=text], input[type=password], input[type="number"] {
+body h1#title {
+  color: black;
+  border-bottom: 5px solid #33D480;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+main {
+  padding-top: 20px;
+}
+form {
+  width: 700px;
+  margin: auto;
+  padding: 10px;
+
+  background-color: rgba(211, 211, 211, 0.514);
+  border-radius: 20px;
+}
+input[type=text], input[type=password], input[type="number"], input[type=date] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -28,8 +47,7 @@ form h1{
     text-align: center;
     margin: 0;
     color: #43EB66;
-    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-}
+  }
 form p{
   text-align: center;
   color: white;

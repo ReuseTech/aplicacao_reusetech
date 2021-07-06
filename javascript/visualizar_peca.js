@@ -42,6 +42,7 @@ let ifExistsRemoveTagElement = (querySelector) => {
 class DomElements {
     createH1WithInnerText = (innerText) => {
         let h = document.createElement('h1');
+        h.setAttribute('id', 'title');
         h.innerText = this.removeUnderlinesFrom(innerText);
 
         return h;
@@ -150,7 +151,6 @@ class TableForm {
                 this.getForm().appendChild(
                     this.dom.createInputWithNameAndType(columnName, this.getInputTypeFrom(tableColumns[columnName]))
                 );
-                this.getForm().appendChild(document.createElement('br'));
             }
         }
         this.autoRecreateInputSubmit();
@@ -173,10 +173,14 @@ class TableForm {
         
     }
 
+    
     createTitleWith = (innerText) => {
-        let body = document.querySelector('body');
-        body.insertBefore(this.dom.createH1WithInnerText(innerText), body.childNodes[2]);
+        let body = document.querySelector('form');
+        let h1 = this.dom.createH1WithInnerText(innerText);
+        h1.setAttribute('id', 'title');
+        body.insertBefore(h1, body.childNodes[2]);
     }
+    
 
     getInputTypeFrom = (file_tipo) => {
         let inputType = null;
