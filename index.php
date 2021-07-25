@@ -27,17 +27,57 @@
         <h1>ReuseTech</h1>
     </header>
     <main>
-        <h1 id="title">O que deseja fazer?</h1>
+        <h1 id="title">Gerenciar Estoque</h1>
         <div id="funcoes">
-            <a href="pages/visualizar.html">
-                <h1>Visualizar Estoque</h1>
+            <a href="GerenciarEstoque/Pc/vizualizarPCs.php">
+                <h1>Visualizar Estoque de PCs</h1>
+                <p>Click aqui para visualizar o nosso estoque de PCs</p>
+            </a>
+        </div>
+        <div id="funcoes">
+            <a href="GerenciarEstoque/Pc/adicionarPc.php">
+                <h1>Adicionar PC</h1>
+                <p>Click aqui para adicionar um pc em nosso estoque</p>
+            </a>
+        </div>
+        <div id="funcoes">
+            <a href="./GerenciarEstoque/Pecas/visualizar.html">
+                <h1>Visualizar Estoque de Peças</h1>
                 <p>Click aqui para visualizar o nosso estoque de peças</p>
             </a>
         </div>
         <div id="funcoes">
-            <a href="pages/tables_list.php">
+            <a href="./GerenciarEstoque/Pecas/listaDePecas.php">
                 <h1>Adicionar Peça do Estoque</h1>
                 <p>Click aqui para adicionar peças em nosso estoque</p>
+            </a>
+        </div>
+
+        <h1 id="title">Gerenciar Barramentos/FKs das Peças</h1>
+        <div id="funcoes">
+            <a href="./GerenciarBarramentosEFKs/visualizarBarramentosEFKs.html">
+                <h1>Visualizar Barramentos/FKs</h1>
+                <p>Click aqui para visualizar os barramentos ou FKs cadastrados</p>
+            </a>
+        </div>
+        <div id="funcoes">
+            <a href="./GerenciarBarramentosEFKs/listaDeBarramentosEFKs.php">
+                <h1>Adicionar Barramentos/FKs</h1>
+                <p>Click aqui para adicionar um barramento ou FK</p>
+            </a>
+        </div>
+
+        <h1 id="title">Gerenciar Usuários</h1>
+        <div id="funcoes">
+            <a href="./GerenciarUsuarios/visualizarUsuarios.html">
+                <h1>Visualizar Usuários</h1>
+                <p>Click aqui para visualizar os usuários</p>
+            </a>
+        </div>
+        <div id="funcoes">
+            <a href="./GerenciarUsuarios/inserirUsuario.php?table=usuario">
+                <h1>Adicionar Usuários</h1>
+                <p>Click aqui para adicionar um novo usuário</p>
             </a>
         </div>
         <div class="sair">

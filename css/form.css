@@ -20,7 +20,7 @@ form {
   background-color: rgba(211, 211, 211, 0.514);
   border-radius: 20px;
 }
-input[type=text], input[type=password], input[type="number"], input[type=date] {
+input[type=text], input[type=password], input[type="number"], input[type=date], input[type=null] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -59,4 +59,9 @@ form p{
   padding: 15px;
   border-radius: 2px;
   font-size: 10px;
+}
+
+button {
+  display: block;
+  margin: auto auto 10px auto;
 }
