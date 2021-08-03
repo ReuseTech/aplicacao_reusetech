@@ -28,58 +28,59 @@
     </header>
     <main>
         <h1 id="title">Gerenciar Estoque</h1>
-        <div id="funcoes">
-            <a href="GerenciarEstoque/Pc/vizualizarPCs.php">
+        <div>
+            <button id="funcoes" onclick="window.location.href='./GerenciarEstoque/Pc/vizualizarPCs.php'">
                 <h1>Visualizar Estoque de PCs</h1>
                 <p>Click aqui para visualizar o nosso estoque de PCs</p>
-            </a>
+            </button>
         </div>
-        <div id="funcoes">
-            <a href="GerenciarEstoque/Pc/adicionarPc.php">
+        <div>
+            <button id="funcoes" onclick="window.location.href='./GerenciarEstoque/Pc/adicionarPc.php'">
                 <h1>Adicionar PC</h1>
                 <p>Click aqui para adicionar um pc em nosso estoque</p>
-            </a>
+            </button>
         </div>
-        <div id="funcoes">
-            <a href="./GerenciarEstoque/Pecas/visualizar.html">
+        <div>
+            <button id="funcoes" onclick="window.location.href='./GerenciarEstoque/Pecas/visualizar.html'">
                 <h1>Visualizar Estoque de Peças</h1>
                 <p>Click aqui para visualizar o nosso estoque de peças</p>
-            </a>
+            </button>
         </div>
-        <div id="funcoes">
-            <a href="./GerenciarEstoque/Pecas/listaDePecas.php">
+        <div>
+            <button id="funcoes" onclick="window.location.href='./GerenciarEstoque/Pecas/listaDePecas.php'">
                 <h1>Adicionar Peça do Estoque</h1>
                 <p>Click aqui para adicionar peças em nosso estoque</p>
-            </a>
+            </button>
         </div>
 
         <h1 id="title">Gerenciar Barramentos/FKs das Peças</h1>
-        <div id="funcoes">
-            <a href="./GerenciarBarramentosEFKs/visualizarBarramentosEFKs.html">
+        <div>
+            <button id="funcoes" onclick="window.location.href='./GerenciarBarramentosEFKs/visualizarBarramentosEFKs.html'">
                 <h1>Visualizar Barramentos/FKs</h1>
                 <p>Click aqui para visualizar os barramentos ou FKs cadastrados</p>
-            </a>
+            </button>
         </div>
-        <div id="funcoes">
-            <a href="./GerenciarBarramentosEFKs/listaDeBarramentosEFKs.php">
+        <div>
+            <button id="funcoes" onclick="window.location.href='./GerenciarBarramentosEFKs/listaDeBarramentosEFKs.php'">
                 <h1>Adicionar Barramentos/FKs</h1>
                 <p>Click aqui para adicionar um barramento ou FK</p>
-            </a>
+            </button>
         </div>
 
         <h1 id="title">Gerenciar Usuários</h1>
-        <div id="funcoes">
-            <a href="./GerenciarUsuarios/visualizarUsuarios.html">
+        <div>
+            <button id="funcoes" onclick="window.location.href='./GerenciarUsuarios/visualizarUsuarios.html'">
                 <h1>Visualizar Usuários</h1>
                 <p>Click aqui para visualizar os usuários</p>
-            </a>
+            </button>
         </div>
-        <div id="funcoes">
-            <a href="./GerenciarUsuarios/inserirUsuario.php?table=usuario">
+        <div>
+            <button id="funcoes" onclick="window.location.href='./GerenciarUsuarios/inserirUsuario.php?table=usuario'">
                 <h1>Adicionar Usuários</h1>
                 <p>Click aqui para adicionar um novo usuário</p>
-            </a>
+            </button>
         </div>
+
         <div class="sair">
             <a href="php/sair.php"><input type="button" value="Sair"></a>
         </div>
