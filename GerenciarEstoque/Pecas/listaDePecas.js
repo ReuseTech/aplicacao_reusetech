@@ -1,7 +1,6 @@
 import * as exports from '../../javascript/listaDeTabelas.js';
 Object.entries(exports).forEach(([name, exported]) => window[name] = exported);
 
-//override
 let showTables = (tables_list) => {
     for(let i = 0; i < tables_list.length; i++){
         if(tables_list[i].search('barramento') == -1 && tables_list[i].search('pc') == -1 && tables_list[i].search('usuario') == -1) {
@@ -12,7 +11,6 @@ let showTables = (tables_list) => {
         }    
     }
 }    
-//override
 let createA = (table_name) => {
     let a = document.createElement("a");
     a.setAttribute("href", "inserirPeca.php?table=" + table_name);

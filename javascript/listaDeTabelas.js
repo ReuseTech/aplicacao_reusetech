@@ -8,20 +8,12 @@ export let loadTablesList = (method, url) => {
         xhr.send();
     })
 }
-//abstratic
-export let showTables = (tables_list) => {
-
-}
 export let createDiv = () => {
     let div = document.createElement("div");
     div.setAttribute("class", "peca");
     div.setAttribute('id', 'funcoes');
 
     return div;
-}
-//abstratic
-export let createA = (table_name) => {
-    
 }
 export let createH1 = (table_name) => {
     let h1 = document.createElement("h1"); 

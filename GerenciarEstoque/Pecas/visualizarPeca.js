@@ -1,6 +1,8 @@
 import * as exports from '../../javascript/vizualizarTuplas.js';
 Object.entries(exports).forEach(([name, exported]) => window[name] = exported);
 
+let tableForm = new Viewer('', '../../api/');
+
 let checkIfThereIsDataOnArray = (array, arrayIndex, compareTo) => {
     for(let i = 0; i < array.length; i++) {
         if(array[i][arrayIndex] == compareTo) {
@@ -12,8 +14,8 @@ let checkIfThereIsDataOnArray = (array, arrayIndex, compareTo) => {
 }
 
 
-loadJson('POST', '../../api/cache/tables_list.json').then((tablesName) => {
-    loadColumnsAndRows(tablesName).then((tablesColumnsAndRows) => {
+tableForm.loadJson('POST', '../../api/cache/tables_list.json').then((tablesName) => {
+    tableForm.loadColumnsAndRows(tablesName).then((tablesColumnsAndRows) => {
         let tablesColumns = tablesColumnsAndRows[0];
         let tablesRowsList = tablesColumnsAndRows[1];
         
@@ -22,64 +24,15 @@ loadJson('POST', '../../api/cache/tables_list.json').then((tablesName) => {
                 if(checkIfThereIsData(tablesRows) && checkIfTableIsFkByIndex(tablesName[index]) == false && checkIfTableIsBusByIndex(tablesName[index]) == false) {
                     tablesRows.forEach((tableRows) => {
                         tableForm.getForm().appendChild(
-                            domElements.createH1WithInnerText(tablesName[index])
+                            createH1WithInnerText(tablesName[index])
                         );
                         let div = tableForm.getForm().appendChild(
                             tableForm.createUnchangableFormAbout(tablesColumns[index], tableRows)
                         );
 
-                        div.appendChild(domElements.createInputHiddenWithTableName(tablesName[index]));
+                        div.appendChild(createInputHiddenWithTableName(tablesName[index]));
 
-                        let buttonReadOnlyChanger = div.insertBefore(domElements.createButtonWithCallback(() => {
-                            div.childNodes.forEach((element) => {
-                                if(element.readOnly == true) {
-                                    element.readOnly = false;
-                                } else {
-                                    element.readOnly = true;
-                                }
-                            });
-                        }
-                        ), div.firstChild);  
-                        
-                        buttonReadOnlyChanger.innerText = 'Mudar para modo de alteração';
-
-                        buttonReadOnlyChanger.addEventListener('click', () => {
-                            if(buttonReadOnlyChanger.readOnly) {
-                                buttonReadOnlyChanger.innerText = 'Mudar para modo de apenas leitura';
-
-                                let allDivs = document.querySelectorAll('form div');
-                                allDivs.forEach((div) => {
-                                    let allDivInputs = div.querySelectorAll('input');
-                                    allDivInputs.forEach((input) => {
-                                        input.disabled = true;
-                                    })
-                                })
-    
-                                let allDivInputs = div.querySelectorAll('input');
-                                    allDivInputs.forEach((input) => {
-                                        input.disabled = false;
-                                })
-
-                                document.querySelectorAll('input[type=submit]').forEach((input) => {
-                                    input.remove();
-                                });
-                                div.appendChild(
-                                    domElements.createInputSubmit()
-                                );
-                            } else {
-                                buttonReadOnlyChanger.innerText = 'Mudar para modo de alteração';
-
-                                let allDivs = document.querySelectorAll('form div');
-                                allDivs.forEach((div) => {
-                                    let allDivInputs = div.querySelectorAll('input');
-                                    allDivInputs.forEach((input) => {
-                                        input.disabled = false;
-                                    })
-                                })
-
-                                document.querySelector('input[type=submit]').remove();
-                            }                            
-                        });
+                        changeTupleChangable(div);
 
                         tablesRowsList.forEach((tablesRowsFk, indexFk) => {
                             if(checkIfThereIsData(tablesRowsFk) && checkIfTableIsFkByIndex(tablesName[indexFk])) {
