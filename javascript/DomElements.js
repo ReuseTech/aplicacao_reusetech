@@ -5,9 +5,12 @@ export let createH1WithInnerText = (innerText) => {
 
     return h;
 }
-export let createLabelWithColumnNameAndMySQLType = (columnName, columnType) => {
+export let createLabelWithColumnNameAndMySQLType = (columnName, columnType, nullability) => {
     let label = document.createElement('label');
     label.innerText = 'Coluna: ' + removeUnderlinesFrom(columnName) + ' || tipo: ' + removeUnderlinesFrom(columnType);
+    if(nullability != null) {
+        label.innerText += ' || Pode ser Null:' + nullability
+    }
 
     return label;
 }

@@ -15,12 +15,15 @@ let ifExistsRemoveTagElement = (querySelector) => {
 
 let tableForm = new TableForm(getTableName());
 
-tableForm.loadJson('POST', '../../api/cache/tabelas/' + getTableName() + '.json').then((namesAndTypesOfColumns) => {
-    tableForm.createTitleWith(getTableName());
-    tableForm.generateFormAbout(namesAndTypesOfColumns);
+tableForm.loadJson('POST', '../../api/cache/tabelas/' + getTableName() + '.json')
+.then((namesAndTypesOfColumns) => {
+    tableForm.loadJson('GET', '../../api/select_table_s_table_not_null.php?table=' + getTableName())
+    .then((tableNulls) => {
+        tableForm.createTitleWith(getTableName());
+        tableForm.generateFormAbout(namesAndTypesOfColumns, tableNulls);
+    })
 })
-.then(
-    tableForm.loadJson('POST', '../../api/cache/tabelas/' + "barramento_" + getTableName() + '.json')
+.then(tableForm.loadJson('POST', '../../api/cache/tabelas/' + "barramento_" + getTableName() + '.json')
     .then((namesAndTypesOfColumns) => {
         tableForm.loadJson('POST', '../../api/select_table_rows.php?table=barramento_' + getTableName())
         .then((busesRows) => {

@@ -22,6 +22,18 @@ class Selector{
         }
         return $rows_information;
     }
+    function get_table_not_null($table){
+        $rows_not_null = array();
+
+        if($table === null){
+            return null;
+        }
+        foreach($table as $row){
+            $key = $row['Field'];
+            $rows_not_null["$key"] = $row['Null'];
+        }
+        return $rows_not_null;
+    }
     function get_tables_names(){
         $tables_names = array();
         

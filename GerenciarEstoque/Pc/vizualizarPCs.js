@@ -27,9 +27,10 @@ tableForm.loadJson('POST', '../../api/cache/tables_list.json').then((tablesName)
                                             document.createElement('h4')
                                         ).innerText = tablesName[indexPiece];
 
-                                        tableForm.getForm().appendChild(
+                                        let div = tableForm.getForm().appendChild(
                                             tableForm.createUnchangableFormAbout(tablesColumns[indexPiece], tableRowsPieces)
-                                        )                                            
+                                        )     
+                                        changeTupleChangable(div);                                       
                                     }
                                 })
                             }

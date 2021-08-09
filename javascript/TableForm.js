@@ -43,13 +43,13 @@ export default class TableForm {
         })
     }
 
-    generateFormAbout = (tableColumns) => { 
+    generateFormAbout = (tableColumns, tableNulls) => { 
         this.getForm().appendChild(createInputHiddenWithTableName(this.tableName)); //necessário para mandar para o back-end o nome da peça
 
         for(let columnName in tableColumns){
             if(columnName !== "id__pc" && columnName !== 'id') {
                 this.getForm().appendChild(
-                    createLabelWithColumnNameAndMySQLType(columnName, tableColumns[columnName])
+                    createLabelWithColumnNameAndMySQLType(columnName, tableColumns[columnName], tableNulls[columnName])
                 );
                 this.getForm().appendChild(
                     createInputWithNameAndType(columnName, this.getInputTypeFrom(tableColumns[columnName]))

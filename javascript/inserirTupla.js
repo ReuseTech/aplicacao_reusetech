@@ -9,8 +9,11 @@ let getTableName = () => {
 let tableForm = new TableForm(getTableName());
 
 tableForm.loadJson('POST', '../api/cache/tabelas/' + getTableName() + '.json').then((namesAndTypesOfColumns) => {
-    tableForm.createTitleWith(getTableName());
-    tableForm.generateFormAbout(namesAndTypesOfColumns);
+    tableForm.loadJson('GET', '../api/select_table_s_table_not_null.php?table=' + getTableName())
+    .then((tableNulls) => {
+        tableForm.createTitleWith(getTableName());
+        tableForm.generateFormAbout(namesAndTypesOfColumns, tableNulls);
+    })
 }).then(() => {
     try {
         let passwordInput = document.querySelector('input[placeholder=senha');

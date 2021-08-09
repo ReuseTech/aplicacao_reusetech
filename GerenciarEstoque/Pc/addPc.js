@@ -119,8 +119,12 @@ let createSelectAboutRowsAndTableName = (tableRows, tableName) => {
 }
 
 tableForm.loadJson('POST', '../../api/cache/tabelas/pc.json').then((namesAndTypesOfColumns) => {
-    tableForm.createTitleWith(getTableName());
-    tableForm.generateFormAbout(namesAndTypesOfColumns);
+    tableForm.loadJson('GET', '../../api/select_table_s_table_not_null.php?table=' + getTableName())
+    .then((tableNulls) => {
+        tableForm.createTitleWith(getTableName());
+        tableForm.generateFormAbout(namesAndTypesOfColumns, tableNulls);
+    })
+
 })
 .then(
     tableForm.loadJson('POST', '../../api/cache/tables_list.json')
