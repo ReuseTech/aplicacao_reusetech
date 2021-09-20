@@ -20,7 +20,7 @@ let loadPiecesNamesAndRows = (pathToGetName, pathToGetRows, piecesName) => {
                             );
 
                             let removeSelectButton = form.insertBefore(createButtonWithCallback(() => {
-                                ifExistsRemoveTagElement(`div[id='${select.name}']`);
+                                ifExistsRemoveTagElement(`div[id='${select.id}']`);
                                 select.remove();
                                 removeSelectButton.remove();
                             }),
@@ -29,7 +29,7 @@ let loadPiecesNamesAndRows = (pathToGetName, pathToGetRows, piecesName) => {
                             removeSelectButton.innerText = "Remover Select";
     
                             select.onchange = () => {
-                                ifExistsRemoveTagElement(`div[id='${select.name}']`);
+                                ifExistsRemoveTagElement(`div[id='${select.id}']`);
     
                                 let selectDiv = tableForm.createUnchangableFormAbout(namesAndTypesOfColumns, select);
                                 form.insertBefore(selectDiv, removeSelectButton.nextSibling)

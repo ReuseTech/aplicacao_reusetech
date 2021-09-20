@@ -10,7 +10,7 @@ Class Inserter{
         $json = file_get_contents($file_path);
         $this->table_info = json_decode($json);
 
-        $this->mysqli = new mysqli("localhost", "root","anthonypro","dbreusetech");
+        $this->mysqli = new mysqli("172.17.0.2", "root","anthonypro","dbreusetech");
         if ($this->mysqli->connect_errno) {
             echo "Falha ao conectar com o MySQL: " . $this->mysqli->connect_error;
             die();
@@ -61,12 +61,14 @@ Class Inserter{
         foreach($table_info as $column => $columnType){
             if(isset($_POST[$column])) {
                 $atributes .= "'$_POST[$column]'";
-                if ($column !== end(array_keys(get_object_vars($table_info)))){
+                $table_info_to_array = array_keys(get_object_vars($table_info));
+                if ($column !== end($table_info_to_array)){
                     $atributes .= ", ";
                 }
             } else {
                 $atributes .= "NULL";
-                if ($column !== end(array_keys(get_object_vars($table_info)))){
+                $table_info_to_array = array_keys(get_object_vars($table_info));
+                if ($column !== end($table_info_to_array)){
                     $atributes .= ", ";
                 }
             }
@@ -75,20 +77,23 @@ Class Inserter{
         return $atributes;
     }
     function createBusesInsertQueries($busesIds) {
-        $busesIdsAndQuantity = (array_count_values($busesIds));
-        $busesIdsAndQuantity = $this->removeEmptyKeys($busesIdsAndQuantity);
-
-        $busesInsertQueries = array();
-
-        for($i = 0; $i < sizeof($busesIdsAndQuantity); $i++){
-            $atributes = "LAST_INSERT_ID(), ";
-            $atributes .= array_keys($busesIdsAndQuantity)[$i] . ", ";
-            $atributes .= $busesIdsAndQuantity[array_keys($busesIdsAndQuantity)[$i]];
-            
-            $insertBusQuery = "INSERT INTO fk_" . $this->table_name . "_barramento VALUES($atributes)";
-            array_push($busesInsertQueries, $insertBusQuery);
+        if($busesIds != null and $busesIds != []) {
+            $busesIdsAndQuantity = (array_count_values($busesIds));
+            $busesIdsAndQuantity = $this->removeEmptyKeys($busesIdsAndQuantity);
+    
+            $busesInsertQueries = array();
+    
+            for($i = 0; $i < sizeof($busesIdsAndQuantity); $i++){
+                $atributes = "LAST_INSERT_ID(), ";
+                $atributes .= array_keys($busesIdsAndQuantity)[$i] . ", ";
+                $atributes .= $busesIdsAndQuantity[array_keys($busesIdsAndQuantity)[$i]];
+                
+                $insertBusQuery = "INSERT INTO fk_" . $this->table_name . "_barramento VALUES($atributes)";
+                array_push($busesInsertQueries, $insertBusQuery);
+            }
+            return $busesInsertQueries;
         }
-        return $busesInsertQueries;
+        else return null;
 
     }
     function removeEmptyKeys($array) {

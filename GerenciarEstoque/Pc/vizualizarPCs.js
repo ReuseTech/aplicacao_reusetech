@@ -1,10 +1,10 @@
 import * as exports from '../../javascript/vizualizarTuplas.js';
 Object.entries(exports).forEach(([name, exported]) => window[name] = exported);
 
-let tableForm = new Viewer();
+let tableForm = new Viewer('', '../../api/');
 
 tableForm.loadJson('POST', '../../api/cache/tables_list.json').then((tablesName) => {
-    loadColumnsAndRows(tablesName).then((tablesColumnsAndRows) => {
+    tableForm.loadColumnsAndRows(tablesName).then((tablesColumnsAndRows) => {
         let tablesColumns = tablesColumnsAndRows[0];
         let tablesRowsList = tablesColumnsAndRows[1];
         
@@ -30,7 +30,6 @@ tableForm.loadJson('POST', '../../api/cache/tables_list.json').then((tablesName)
                                         let div = tableForm.getForm().appendChild(
                                             tableForm.createUnchangableFormAbout(tablesColumns[indexPiece], tableRowsPieces)
                                         )     
-                                        changeTupleChangable(div);                                       
                                     }
                                 })
                             }

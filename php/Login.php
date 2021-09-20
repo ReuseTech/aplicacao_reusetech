@@ -8,7 +8,7 @@ class Login{
         $this->user = $user;
         $this->password = $password;
 
-        $this->mysqli = new mysqli("localhost", "root","anthonypro","dbreusetech");
+        $this->mysqli = new mysqli("172.17.0.2", "root","anthonypro","dbreusetech");
         if ($this->mysqli->connect_errno) {
             echo "Falha ao conectar com o MySQL: " . $this->mysqli->connect_error;
             die();
