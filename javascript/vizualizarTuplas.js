@@ -4,7 +4,7 @@ Object.entries(exports).forEach(([name, exported]) => window[name] = exported);
 
 export class Viewer extends TableForm {
     //override
-    createUnchangableFormAbout = (tableColumns, tableRows) => {
+    createUnchangableFormWithColumnsAndRows = (tableColumns, tableRows) => {
         let busDiv = createDivWithSelectId('1');
 
         for(let columnName in tableColumns){
@@ -43,12 +43,10 @@ export let checkIfTableIsBusByIndex = (tableName) => {
         return true;
     }
 }
-export let removeAllELementsFromExcept = (parentElement, querySelector) => {
-    let childElement = parentElement.querySelector(querySelector);
+export let removeAllELementsFrom = (parentElement) => {
     parentElement.innerHTML = '';
-    parentElement.appendChild(childElement);
 }
-export let changeTupleChangable = (div) => {
+export let changeTupleChangeable = (div) => {
     let buttonReadOnlyChanger = div.insertBefore(createButtonWithCallback(() => {
         disableAllDivsExcept(div);
     }
