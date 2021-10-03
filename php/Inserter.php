@@ -5,7 +5,7 @@ Class Inserter{
     private $mysqli;
 
     function __construct($file_path) {
-        $this->table_name = $_POST['table'] != null ? $_POST['table'] : $_GET['table'];
+        $this->table_name = $_POST['table'] == null ? $_POST['table'] : $_GET['table'];
 
         $json = file_get_contents($file_path);
         $this->table_info = json_decode($json);

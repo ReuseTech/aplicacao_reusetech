@@ -22,7 +22,7 @@ export default class TableForm {
         let busDiv = createDivWithSelectId(select.id);
 
         let h1Bus = busDiv.appendChild(document.createElement('h1'));  
-        h1Bus.innerText = "Barramento " + this.tableName;
+        h1Bus.innerText = "Barramento";
 
         for(let columnName in tableColumns){
             busDiv.appendChild(

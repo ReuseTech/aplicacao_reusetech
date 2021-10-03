@@ -1,4 +1,8 @@
+import PiecesInfoManager from './Info/PiecesInfoManager.js';
 import TableForm from './TableForm.js';
+
+let piecesInfoManager = new PiecesInfoManager('../api/');
+await piecesInfoManager.initializer();
 
 let getTableName = () => {
     const queryString = window.location.search;
@@ -8,8 +12,8 @@ let getTableName = () => {
 
 let tableForm = new TableForm(getTableName());
 
-tableForm.loadJson('POST', '../api/cache/tabelas/' + getTableName() + '.json').then((namesAndTypesOfColumns) => {
-    tableForm.loadJson('GET', '../api/select_table_s_table_not_null.php?table=' + getTableName())
+piecesInfoManager.loadJson('POST', '../api/cache/tabelas/' + getTableName() + '.json').then((namesAndTypesOfColumns) => {
+    piecesInfoManager.loadJson('GET', '../api/select_table_s_table_not_null.php?table=' + getTableName())
     .then((tableNulls) => {
         tableForm.createTitleWith(getTableName());
         tableForm.generateFormAbout(namesAndTypesOfColumns, tableNulls);

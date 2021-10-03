@@ -1,14 +1,18 @@
 import TableForm from '../../javascript/TableForm.js';
 import * as exports from '../../javascript/DomElements.js';
+import PiecesInfoManager from "../../javascript/Info/PiecesInfoManager.js";
 Object.entries(exports).forEach(([name, exported]) => window[name] = exported);
+
+let piecesInfoManager = new PiecesInfoManager('../../api/');
+await piecesInfoManager.initializer();
 
 let tableForm = new TableForm();
 
 let loadPiecesNamesAndRows = (pathToGetName, pathToGetRows, piecesName) => {
     return new Promise((resolve, reject) => {
-        tableForm.loadJson('POST', pathToGetName)
+        piecesInfoManager.loadJson('POST', pathToGetName)
             .then((namesAndTypesOfColumns) => {
-                tableForm.loadJson('POST', pathToGetRows)
+                piecesInfoManager.loadJson('POST', pathToGetRows)
             .then((busesRows) => {
                 if(namesAndTypesOfColumns !== null) {
                     let form = tableForm.getForm();
@@ -118,8 +122,8 @@ let createSelectAboutRowsAndTableName = (tableRows, tableName) => {
     return select;
 }
 
-tableForm.loadJson('POST', '../../api/cache/tabelas/pc.json').then((namesAndTypesOfColumns) => {
-    tableForm.loadJson('GET', '../../api/select_table_s_table_not_null.php?table=' + getTableName())
+piecesInfoManager.loadJson('POST', '../../api/cache/tabelas/pc.json').then((namesAndTypesOfColumns) => {
+    piecesInfoManager.loadJson('GET', '../../api/select_table_s_table_not_null.php?table=' + getTableName())
     .then((tableNulls) => {
         tableForm.createTitleWith(getTableName());
         tableForm.generateFormAbout(namesAndTypesOfColumns, tableNulls);
@@ -127,7 +131,7 @@ tableForm.loadJson('POST', '../../api/cache/tabelas/pc.json').then((namesAndType
 
 })
 .then(
-    tableForm.loadJson('POST', '../../api/cache/tables_list.json')
+    piecesInfoManager.loadJson('POST', '../../api/cache/tables_list.json')
     .then((piecesNameList) => {
         for(let i = 0; i < piecesNameList.length; i++) {
             if(checkIfIsOnBlackList(piecesNameList[i])) {

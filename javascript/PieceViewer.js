@@ -9,28 +9,42 @@ export default class PieceViewer extends Viewer {
         this.piecesInfoManager = piecesInfoManager;
     }
     
-    showPiece = (tableRows, index) => {
-        if(this.checkIfIsNormalTable(tableRows)) {
+    showTableAllPieces = (tableRows, index) => {
+        tableRows.forEach((row) => {
+            this.showPiece(row, index);
+        });
+    }
+    showPiece = (row, index) => {
+        let tableColumns = this.piecesInfoManager.allTablesColumns[index];
 
-            tableRows.forEach((row) => {
-                let tableColumns = this.piecesInfoManager.allTablesColumns[index];
-    
-                this.getForm().appendChild(
-                    createH1WithInnerText(this.tableName)
-                );
-                let div = this.getForm().appendChild(
-                    this.createUnchangableFormWithColumnsAndRows(tableColumns, row)
-                );
-    
-                div.appendChild(createInputHiddenWithTableName(this.tableName));
-    
-                changeTupleChangeable(div);
+        this.getForm().appendChild(
+            createH1WithInnerText(this.tableName)
+        );
+        let div = this.getForm().appendChild(
+            this.createUnchangableFormWithColumnsAndRows(tableColumns, row)
+        );
 
-                let rowId = row['id'];
-                this.showPieceBuses(rowId);
+        div.appendChild(createInputHiddenWithTableName(this.tableName));
 
-            });
-        }
+        changeTupleChangeable(div);
+
+        let rowId = row['id'];
+        this.showPieceBuses(rowId);
+    }
+    showUnchangeblePiece = (row, index) => {
+        let tableColumns = this.piecesInfoManager.allTablesColumns[index];
+
+        this.getForm().appendChild(
+            createH1WithInnerText(this.tableName)
+        );
+        let div = this.getForm().appendChild(
+            this.createUnchangableFormWithColumnsAndRows(tableColumns, row)
+        );
+
+        div.appendChild(createInputHiddenWithTableName(this.tableName));
+
+        let rowId = row['id'];
+        this.showPieceBuses(rowId);
     }
     showPieceBuses = (rowId) => {
         this.piecesInfoManager.tablesListOfRows.forEach((tableRowsFk, indexFk) => {

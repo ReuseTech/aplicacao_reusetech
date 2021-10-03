@@ -26,7 +26,7 @@
             <h1>ReuseTech</h1>
         </header>
         <main>
-            <form action="../php/insert_piece.php" method="POST">
+            <form action="../php/insert_piece.php?table=usuario" method="POST">
                     <!-- conteúdo criado via javascript -->
             </form>
             <div class="sair">

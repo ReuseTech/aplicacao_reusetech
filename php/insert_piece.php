@@ -4,7 +4,7 @@
 
     include("Inserter.php");
     
-    $inserter = new Inserter("../api/cache/tabelas/" . $_POST['table'] . ".json");
+    $inserter = new Inserter("../api/cache/tabelas/" . $_GET['table'] . ".json");
     
     $insertPieceQuery = $inserter->createInsertQuery();
     $inserter->insert($insertPieceQuery);
@@ -15,7 +15,6 @@
             $inserter->insert($busQuery);
         }
     }
-
 
     header("location:../pages/certo.html");
 ?>

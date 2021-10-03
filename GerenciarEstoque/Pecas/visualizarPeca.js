@@ -8,7 +8,9 @@ piecesInfoManager.tablesListOfRows.forEach((tableRows, index) => {
     let tableName = piecesInfoManager.tablesName[index];
     let pieceViewer = new PieceViewer(tableName, piecesInfoManager);
 
-    pieceViewer.showPiece(tableRows, index);
+    if(pieceViewer.checkIfIsNormalTable(tableRows)) {
+        pieceViewer.showTableAllPieces(tableRows, index);
+    }
 });
 
 
