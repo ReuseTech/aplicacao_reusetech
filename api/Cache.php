@@ -37,5 +37,5 @@ $cache->delete_old_cache();
 $cache->create_tables_list_cache();
 $cache->create_tables_rows_cache();
 
-header("Location:../pages/tables_list.php");
+header("Location:../pages/certo.html");
 ?> 

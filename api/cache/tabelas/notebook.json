@@ -1,0 +1,1 @@
+{"id":"int","marca":"varchar(100)","modelo":"varchar(150)","descricao":"varchar(1000)","data_recebimento":"date","remetente":"varchar(100)","processador":"varchar(100)","quantidade_memoria_ram":"int","quantidade_armazenamento":"int","conexoes":"varchar(500)","padrao_teclado":"varchar(50)","possui_grafico_dedicado":"tinyint(1)","funciona":"tinyint(1)"}

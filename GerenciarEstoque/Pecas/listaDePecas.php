@@ -29,7 +29,7 @@
         </header>
         <main>
             <div class="recarregar sair">
-                <a href="../api/Cache.php"><input type="button" value="Recarregar tabelas disponíveis"></a>
+                <a href="../../api/Cache.php"><input type="button" value="Recarregar tabelas disponíveis"></a>
             </div>
             <div class="coluna">
                 <!-- conteúdo criado via javascript -->
