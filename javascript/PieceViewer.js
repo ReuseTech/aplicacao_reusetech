@@ -14,6 +14,11 @@ export default class PieceViewer extends Viewer {
             this.showPiece(row, index);
         });
     }
+    showTableAllUnchangeblePieces = (tableRows, index) => {
+        tableRows.forEach((row) => {
+            this.showUnchangeblePiece(row, index);
+        });
+    }
     showPiece = (row, index) => {
         let tableColumns = this.piecesInfoManager.allTablesColumns[index];
 
@@ -71,12 +76,16 @@ export default class PieceViewer extends Viewer {
                         let div = this.getForm().appendChild(
                             this.createUnchangableFormWithColumnsAndRows(this.piecesInfoManager.allTablesColumns[indexBus], rowBus)
                         );
-                        let inputBarramento = div.querySelector('input[name=barramento]');
-        
+
+                        let inputBarramento = div.querySelector('input[name=barramento]') 
+                            || div.querySelector('input[name=suport_soquete]')
+                            || div.querySelector('input[name=soquete]');;
+                        
                         this.addStringQuantityInsideInput(rowFk['quantidade'], inputBarramento);
                             
                         removeAllELementsFrom(div);
                         div.appendChild(inputBarramento);
+                        
                     }
                 });
                 

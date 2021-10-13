@@ -3,7 +3,10 @@ import PieceViewer from "../javascript/PieceViewer.js";
 
 let changePasswordFieldToPassword = () => {
     try {
-        document.querySelector('input[placeholder=senha').type = 'password';
+        document.querySelectorAll('input[placeholder=senha').forEach((inputSenha) => {
+            inputSenha.type = 'password';
+        }) ;
+
     } catch(error) {
         console.log(error);
         console.log('O Erro acima ocorreu porque não há uma tag input de senha');
@@ -18,7 +21,7 @@ piecesInfoManager.tablesListOfRows.forEach((tableRows, index) => {
     let pieceViewer = new PieceViewer(tableName, piecesInfoManager);
 
     if(tableName == 'usuario') {
-        pieceViewer.showTableAllPieces(tableRows, index);
+        pieceViewer.showTableAllUnchangeblePieces(tableRows, index);
     }
     changePasswordFieldToPassword();
 });

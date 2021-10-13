@@ -5,7 +5,7 @@
     include("Inserter.php");
 
     $_POST['table'] = 'pc';
-    $inserter = new Inserter("../api/cache/tabelas/" . $_POST['table'] . ".json");
+    $inserter = new Inserter("../api/cache/tabelas/" . $_POST['table'] . ".json", $_POST['table']);
 
     $tablesNameList = json_decode(file_get_contents('../api/cache/tables_list.json'));
     

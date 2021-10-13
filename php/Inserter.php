@@ -4,8 +4,8 @@ Class Inserter{
     private $table_info;
     private $mysqli;
 
-    function __construct($file_path) {
-        $this->table_name = $_POST['table'] == null ? $_POST['table'] : $_GET['table'];
+    function __construct($file_path, $table_name) {
+        $this->table_name = $table_name;
 
         $json = file_get_contents($file_path);
         $this->table_info = json_decode($json);
@@ -16,9 +16,6 @@ Class Inserter{
             die();
         }
 
-        if(isset($_POST['id'])) {
-            $_POST['id'] = null;
-        }
     }
     
     function insert($insertQuery) {
@@ -32,10 +29,21 @@ Class Inserter{
     }
 
     function createUpdateQueryById($id){
-        $setQuery = $this->createUpdateSet($_GET);
+        $setQuery = $this->createUpdateSet($_GET != null ? $_GET : $_POST);
 
 
         return "UPDATE $this->table_name SET $setQuery WHERE id = $id";
+    }
+    function createUpdateQueryFk(){
+        $setQuery = $this->createUpdateSet($_GET != null ? $_GET : $_POST);
+
+        $id = (str_replace('fk_', '', $_POST['table']));
+        $id = (str_replace('_barramento', '', $id));
+        $id = 'id__'.$id;
+
+        $piece_id = $_POST[$id];
+
+        return "UPDATE $this->table_name SET $setQuery WHERE `$id` = $piece_id";
     }
 
     function createUpdateSet($typeAndField) {
@@ -44,10 +52,16 @@ Class Inserter{
         $setQuery = '';
 
         foreach($typeAndField as $type => $field) {
+
             if($type != 'table') {
-                $setQuery .= "`$type`" . "=" . "'$field'";
-            
-                if ($type !== end(array_keys($typeAndField))){
+                if($field == '') {
+                    $setQuery .= "`$type`" . "=" . "NULL";
+                } else {
+                    $setQuery .= "`$type`" . "=" . "'$field'";
+                }
+                
+                $array_keys = array_keys($typeAndField);
+                if ($type !== end($array_keys)){
                     $setQuery .= ", ";
                 }
             }
@@ -59,7 +73,13 @@ Class Inserter{
     function createInsertAtributes($table_info) {
         $atributes = "";
         foreach($table_info as $column => $columnType){
-            if(isset($_POST[$column])) {
+            if($column == 'id') {
+                $atributes .= "DEFAULT";
+                $table_info_to_array = array_keys(get_object_vars($table_info));
+                if ($column !== end($table_info_to_array)){
+                    $atributes .= ", ";
+                }
+            } else if(isset($_POST[$column])) {
                 $atributes .= "'$_POST[$column]'";
                 $table_info_to_array = array_keys(get_object_vars($table_info));
                 if ($column !== end($table_info_to_array)){

@@ -3,8 +3,8 @@
     isset($_SESSION["user"]) or header("location:./login.php");
 
     include("Inserter.php");
-    
-    $inserter = new Inserter("../api/cache/tabelas/" . $_GET['table'] . ".json");
+
+    $inserter = new Inserter("../api/cache/tabelas/" . $_GET['table'] . ".json", $_GET['table']);
     
     $insertPieceQuery = $inserter->createInsertQuery();
     $inserter->insert($insertPieceQuery);
