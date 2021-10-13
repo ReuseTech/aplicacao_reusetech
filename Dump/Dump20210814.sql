@@ -164,7 +164,7 @@ CREATE TABLE `barramento_placa_mae` (
   `tipo` enum('armazenamento','memoria','pci') DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -173,6 +173,7 @@ CREATE TABLE `barramento_placa_mae` (
 
 LOCK TABLES `barramento_placa_mae` WRITE;
 /*!40000 ALTER TABLE `barramento_placa_mae` DISABLE KEYS */;
+INSERT INTO `barramento_placa_mae` VALUES (1,'DDR3','memoria'),(2,'DDR4','memoria'),(3,'PCIe 3.0','pci'),(4,'PCIe 2.0','pci'),(5,'SATA 3','armazenamento'),(6,'SATA 2','armazenamento'),(7,'NVMe','armazenamento');
 /*!40000 ALTER TABLE `barramento_placa_mae` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +242,7 @@ DROP TABLE IF EXISTS `dispositivos_moveis`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `dispositivos_moveis` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `marca` varchar(100) DEFAULT NULL,
   `modelo` varchar(150) DEFAULT NULL,
   `descricao` varchar(300) DEFAULT NULL,
@@ -392,6 +393,7 @@ CREATE TABLE `fk_placa_mae_barramento` (
 
 LOCK TABLES `fk_placa_mae_barramento` WRITE;
 /*!40000 ALTER TABLE `fk_placa_mae_barramento` DISABLE KEYS */;
+INSERT INTO `fk_placa_mae_barramento` VALUES (1,1,4),(1,3,1),(1,4,2),(1,5,3),(1,6,4),(2,2,2),(2,3,1),(2,4,2),(2,7,1),(2,5,4),(3,2,2),(3,3,1),(3,4,2),(3,7,1),(3,5,4);
 /*!40000 ALTER TABLE `fk_placa_mae_barramento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -532,7 +534,7 @@ DROP TABLE IF EXISTS `monitor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `monitor` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `marca` varchar(100) DEFAULT NULL,
   `modelo` varchar(150) DEFAULT NULL,
   `descricao` varchar(300) DEFAULT NULL,
@@ -562,7 +564,7 @@ DROP TABLE IF EXISTS `mouse`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `mouse` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `marca` varchar(100) DEFAULT NULL,
   `modelo` varchar(150) DEFAULT NULL,
   `descricao` varchar(300) DEFAULT NULL,
@@ -585,6 +587,41 @@ LOCK TABLES `mouse` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `notebook`
+--
+
+DROP TABLE IF EXISTS `notebook`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notebook` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `marca` varchar(100) DEFAULT NULL,
+  `modelo` varchar(150) DEFAULT NULL,
+  `descricao` varchar(1000) DEFAULT NULL,
+  `data_recebimento` date DEFAULT NULL,
+  `remetente` varchar(100) DEFAULT NULL,
+  `processador` varchar(100) DEFAULT NULL,
+  `quantidade_memoria_ram` int DEFAULT NULL,
+  `quantidade_armazenamento` int DEFAULT NULL,
+  `conexoes` varchar(500) DEFAULT NULL,
+  `padrao_teclado` varchar(50) DEFAULT NULL,
+  `possui_grafico_dedicado` tinyint(1) DEFAULT NULL,
+  `funciona` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notebook`
+--
+
+LOCK TABLES `notebook` WRITE;
+/*!40000 ALTER TABLE `notebook` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notebook` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `outros`
 --
 
@@ -592,7 +629,7 @@ DROP TABLE IF EXISTS `outros`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `outros` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `marca` varchar(100) DEFAULT NULL,
   `modelo` varchar(150) DEFAULT NULL,
   `descricao` varchar(300) DEFAULT NULL,
@@ -725,7 +762,7 @@ CREATE TABLE `placa_mae` (
   PRIMARY KEY (`id`),
   KEY `fk__pc_placa_mae` (`id__pc`),
   CONSTRAINT `fk__pc_placa_mae` FOREIGN KEY (`id__pc`) REFERENCES `pc` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -734,6 +771,7 @@ CREATE TABLE `placa_mae` (
 
 LOCK TABLES `placa_mae` WRITE;
 /*!40000 ALTER TABLE `placa_mae` DISABLE KEYS */;
+INSERT INTO `placa_mae` VALUES (1,'ASUS','P8H77-M PRO','Placa mãe ASUS P8H77-M PRO','2021-07-06','Remetente A','LGA1155','H77',1,1,NULL),(2,'Gigabyte','GA-A320M-H','Placa mãe Gigabyte GA-A320M-H ','2021-07-04','Remetente B','AM4','A320',1,1,NULL),(3,'Biostar','H410MH','Placa mãe Biostar H410MH','2021-07-02','Remetente C','LGA1200','H410',1,1,NULL);
 /*!40000 ALTER TABLE `placa_mae` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -773,6 +811,38 @@ LOCK TABLES `processador` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `smartphone`
+--
+
+DROP TABLE IF EXISTS `smartphone`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `smartphone` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `marca` varchar(100) DEFAULT NULL,
+  `modelo` varchar(150) DEFAULT NULL,
+  `descricao` varchar(1000) DEFAULT NULL,
+  `data_recebimento` date DEFAULT NULL,
+  `remetente` varchar(100) DEFAULT NULL,
+  `processador` varchar(100) DEFAULT NULL,
+  `quantidade_memoria_ram` int DEFAULT NULL,
+  `quantidade_armazenamento` int DEFAULT NULL,
+  `funciona` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `smartphone`
+--
+
+LOCK TABLES `smartphone` WRITE;
+/*!40000 ALTER TABLE `smartphone` DISABLE KEYS */;
+/*!40000 ALTER TABLE `smartphone` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `teclado`
 --
 
@@ -780,7 +850,7 @@ DROP TABLE IF EXISTS `teclado`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `teclado` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `marca` varchar(100) DEFAULT NULL,
   `modelo` varchar(150) DEFAULT NULL,
   `descricao` varchar(300) DEFAULT NULL,
@@ -836,4 +906,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-20 22:13:44
+-- Dump completed on 2021-08-14 19:38:42
